@@ -1,0 +1,17 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "framework": "create-react-app",
+  "functions": {
+    "api/treasury.js": {
+      "memory": 256,
+      "maxDuration": 15
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/treasury",
+      "destination": "/api/treasury.js"
+    }
+  ]
+}
