@@ -1,11 +1,3 @@
-const AGENCY_MAP = {
-  dhs: "Homeland Security",
-  dod: "Defense-Military Programs",
-  hhs: "Health and Human Services",
-  usda: "Agriculture",
-  doj: "Justice",
-};
-
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Cache-Control", "public, s-maxage=21600, stale-while-revalidate");
@@ -20,7 +12,7 @@ module.exports = async function handler(req, res) {
     });
 
     if (!response.ok) {
-      throw new Error(`Treasury API ${response.status}: ${await response.text().then(t => t.slice(0, 300))}`);
+      throw new Error(`Treasury API ${response.status}`);
     }
 
     const json = await response.json();
@@ -31,57 +23,29 @@ module.exports = async function handler(req, res) {
     }
 
     const latestDate = rows[0]?.record_date || null;
-    const results = {};
 
-    for (const [key, agencyName] of Object.entries(AGENCY_MAP)) {
-      const row = rows.find(
-        (r) =>
-          r.record_date === latestDate &&
-          r.classification_desc &&
-          r.classification_desc.includes(agencyName)
-      );
-
-      if (row) {
-        const ytd = parseFloat(row.current_fytd_gross_outly_amt) * 1_000_000;
-        const priorYtd = parseFloat(row.prior_fytd_gross_outly_amt) * 1_000_000;
-        const monthActual = parseFloat(row.current_month_gross_outly_amt) * 1_000_000;
-
-        results[key] = {
-          agency: row.classification_desc,
-          currentFiscalYearToDate: isNaN(ytd) ? null : ytd,
-          priorFiscalYearToDate: isNaN(priorYtd) ? null : priorYtd,
-          currentMonthActual: isNaN(monthActual) ? null : monthActual,
-          recordDate: row.record_date,
-        };
-      } else {
-        results[key] = null;
-      }
-    }
+    // Return ALL rows for the latest date so we can see exact agency names
+    const latestRows = rows
+      .filter(r => r.record_date === latestDate)
+      .map(r => ({
+        desc: r.classification_desc,
+        ytd: r.current_fytd_gross_outly_amt,
+        month: r.current_month_gross_outly_amt,
+      }));
 
     return res.status(200).json({
       success: true,
+      debug: true,
       asOf: latestDate,
+      allAgencies: latestRows,
       fetchedAt: new Date().toISOString(),
-      agencies: results,
-      computed: {
-        dhsEnforcementSurge:
-          results.dhs?.currentFiscalYearToDate && results.dhs?.priorFiscalYearToDate
-            ? results.dhs.currentFiscalYearToDate - results.dhs.priorFiscalYearToDate
-            : null,
-      },
-      note: "Values are actual outlays in USD. Source: US Treasury MTS Table 5.",
     });
 
   } catch (error) {
-    console.error("Treasury API error:", error.message);
     return res.status(200).json({
       success: false,
       error: error.message,
-      asOf: null,
       fetchedAt: new Date().toISOString(),
-      agencies: {},
-      computed: {},
-      note: "Treasury data temporarily unavailable. Displaying estimated figures.",
     });
   }
 };
