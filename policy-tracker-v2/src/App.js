@@ -1,3 +1,4 @@
+import RecessionIndicator from './RecessionIndicator';
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const STATIC_CATEGORIES = [
