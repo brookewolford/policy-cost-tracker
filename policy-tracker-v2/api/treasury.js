@@ -23,21 +23,24 @@ module.exports = async function handler(req, res) {
     }
 
     const latestDate = rows[0]?.record_date || null;
+    const latestRows = rows.filter(r => r.record_date === latestDate);
 
-    // Return ALL rows for the latest date so we can see exact agency names
-    const latestRows = rows
-      .filter(r => r.record_date === latestDate)
-      .map(r => ({
-        desc: r.classification_desc,
-        ytd: r.current_fytd_gross_outly_amt,
-        month: r.current_month_gross_outly_amt,
-      }));
+    // Show ALL rows with their values so we can find which ones have actual data
+    const allRows = latestRows.map(r => ({
+      desc: r.classification_desc,
+      ytd: r.current_fytd_gross_outly_amt,
+      month: r.current_month_gross_outly_amt,
+    }));
+
+    // Also specifically find rows that have non-null ytd values
+    const rowsWithData = allRows.filter(r => r.ytd !== null && r.ytd !== "null");
 
     return res.status(200).json({
       success: true,
       debug: true,
       asOf: latestDate,
-      allAgencies: latestRows,
+      totalRows: latestRows.length,
+      rowsWithData: rowsWithData,
       fetchedAt: new Date().toISOString(),
     });
 
