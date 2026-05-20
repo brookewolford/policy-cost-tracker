@@ -226,7 +226,7 @@ export default function App() {
   const [treasuryStatus, setTreasuryStatus] = useState("loading");
 
   useEffect(() => {
-    const id = setInterval(() => setElapsed((Date.now() - startRef.current) / 1000), 100);
+    const id = setInterval(() => setElapsed((Date.now() - startRef.current) / 1000), 1000);
     return () => clearInterval(id);
   }, []);
 
