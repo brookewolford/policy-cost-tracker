@@ -322,7 +322,7 @@ const [activeTab, setActiveTab] = useState("tracker");
         </div>
       </div>
 
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "0 24px" }}>         <div style={{ display: "flex", gap: "4px", padding: "16px 0 0", borderBottom: "2px solid #222", marginBottom: "24px" }}>           {[["tracker", "Policy Cost Tracker"], ["recession", "Recession Risk Indicator"]].map(([id, label]) => (             <button               key={id}               onClick={() => setActiveTab(id)}               style={{                 padding: "9px 20px",                 fontFamily: "monospace",                 fontSize: "12px",                 letterSpacing: "1px",                 fontWeight: 700,                 border: "none",                 borderRadius: "4px 4px 0 0",                 cursor: "pointer",                 background: activeTab === id ? "#c0392b" : "transparent",                 color: activeTab === id ? "#fff" : "#666",                 transition: "all 0.15s",               }}             >               {label.toUpperCase()}             </button>           ))}         </div>          {activeTab === "recession" && <RecessionIndicator />}          {activeTab === "tracker" && <div style={{ paddingBottom: "60px" }}>
+      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "0 24px" }}>         <div style={{ display: "flex", gap: "4px", padding: "16px 0 0", borderBottom: "2px solid #222", marginBottom: "24px" }}>           {[["tracker", "Policy Cost Tracker"], ["recession", "Recession Risk Indicator"]].map(([id, label]) => (             <button               key={id}               onClick={() => setActiveTab(id)}               style={{                 padding: "9px 20px",                 fontFamily: "monospace",                 fontSize: "12px",                 letterSpacing: "1px",                 fontWeight: 700,                 border: "none",                 borderRadius: "4px 4px 0 0",                 cursor: "pointer",                 background: activeTab === id ? "#c0392b" : "transparent",                 color: activeTab === id ? "#fff" : "#666",                 transition: "all 0.15s",               }}             >               {label.toUpperCase()}             </button>           ))}         </div>          {activeTab === "recession" && <RecessionIndicator />}          {activeTab === "tracker" && <>           <div style={{ paddingBottom: "60px" }}>
 
         <div style={{ background: "#141414", border: "1px solid #2a2a2a", borderRadius: "6px", padding: "16px 20px", marginBottom: "24px", fontSize: "13px", color: "#bbb", lineHeight: "1.8" }}>
           <strong style={{ color: "#eee", fontSize: "14px" }}>How this works:</strong> Items marked{" "}
@@ -390,6 +390,7 @@ const [activeTab, setActiveTab] = useState("tracker");
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
       `}</style>
-    </div>
+   </div>
+        </>}
   );
 }
