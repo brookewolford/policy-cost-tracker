@@ -6,15 +6,14 @@ const AGENCY_MAP = {
   doj: "Justice",
 };
 
-const CACHE_SECONDS = 6 * 60 * 60;
-
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET");
-  res.setHeader("Cache-Control", `public, s-maxage=${CACHE_SECONDS}, stale-while-revalidate`);
+  res.setHeader("Cache-Control", "public, s-maxage=21600, stale-while-revalidate");
 
   try {
-    const url = "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=classification_desc,current_fiscal_year_to_date,prior_fiscal_year_to_date,record_date,current_month_actual&sort=-record_date&page%5Bsize%5D=100";
+    const fields = "classification_desc,current_fiscal_year_to_date,prior_fiscal_year_to_date,record_date,current_month_actual";
+    const url = `https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=${fields}&sort=-record_date&page[size]=100&page[number]=1`;
 
     const response = await fetch(url, {
       headers: { "Accept": "application/json" },
@@ -22,7 +21,8 @@ module.exports = async function handler(req, res) {
     });
 
     if (!response.ok) {
-      throw new Error(`Treasury API returned ${response.status}: ${response.statusText}`);
+      const text = await response.text();
+      throw new Error(`Treasury API returned ${response.status}: ${text.slice(0, 200)}`);
     }
 
     const json = await response.json();
@@ -60,23 +60,22 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    const dhsYoYIncrease =
-      results.dhs?.currentFiscalYearToDate && results.dhs?.priorFiscalYearToDate
-        ? results.dhs.currentFiscalYearToDate - results.dhs.priorFiscalYearToDate
-        : null;
-
     return res.status(200).json({
       success: true,
       asOf: latestDate,
       fetchedAt: new Date().toISOString(),
       agencies: results,
-      computed: { dhsEnforcementSurge: dhsYoYIncrease },
+      computed: {
+        dhsEnforcementSurge:
+          results.dhs?.currentFiscalYearToDate && results.dhs?.priorFiscalYearToDate
+            ? results.dhs.currentFiscalYearToDate - results.dhs.priorFiscalYearToDate
+            : null,
+      },
       note: "Values are actual outlays in USD. Source: US Treasury MTS Table 5.",
     });
 
   } catch (error) {
     console.error("Treasury API error:", error.message);
-
     return res.status(200).json({
       success: false,
       error: error.message,
