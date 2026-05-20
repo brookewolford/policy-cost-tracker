@@ -1,11 +1,18 @@
+const AGENCY_MAP = {
+  dhs: "Homeland Security",
+  dod: "Defense-Military Programs",
+  hhs: "Health and Human Services",
+  usda: "Agriculture",
+  doj: "Justice",
+};
+
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Cache-Control", "public, s-maxage=21600, stale-while-revalidate");
 
   try {
-    // Step 1: Fetch with NO fields filter so we get everything back
-    // This lets us discover whatever field names Treasury actually uses
-    const url = "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?sort=-record_date&page[number]=1&page[size]=5";
+    const fields = "classification_desc,current_month_gross_outly_amt,current_fytd_gross_outly_amt,prior_fytd_gross_outly_amt,record_date";
+    const url = `https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=${fields}&sort=-record_date&page[number]=1&page[size]=100`;
 
     const response = await fetch(url, {
       headers: { "Accept": "application/json" },
@@ -13,7 +20,7 @@ module.exports = async function handler(req, res) {
     });
 
     if (!response.ok) {
-      throw new Error(`Treasury API ${response.status}: ${await response.text().then(t => t.slice(0,300))}`);
+      throw new Error(`Treasury API ${response.status}: ${await response.text().then(t => t.slice(0, 300))}`);
     }
 
     const json = await response.json();
@@ -23,22 +30,58 @@ module.exports = async function handler(req, res) {
       throw new Error("No data rows returned");
     }
 
-    // Return the raw first row so we can see all actual field names
+    const latestDate = rows[0]?.record_date || null;
+    const results = {};
+
+    for (const [key, agencyName] of Object.entries(AGENCY_MAP)) {
+      const row = rows.find(
+        (r) =>
+          r.record_date === latestDate &&
+          r.classification_desc &&
+          r.classification_desc.includes(agencyName)
+      );
+
+      if (row) {
+        const ytd = parseFloat(row.current_fytd_gross_outly_amt) * 1_000_000;
+        const priorYtd = parseFloat(row.prior_fytd_gross_outly_amt) * 1_000_000;
+        const monthActual = parseFloat(row.current_month_gross_outly_amt) * 1_000_000;
+
+        results[key] = {
+          agency: row.classification_desc,
+          currentFiscalYearToDate: isNaN(ytd) ? null : ytd,
+          priorFiscalYearToDate: isNaN(priorYtd) ? null : priorYtd,
+          currentMonthActual: isNaN(monthActual) ? null : monthActual,
+          recordDate: row.record_date,
+        };
+      } else {
+        results[key] = null;
+      }
+    }
+
     return res.status(200).json({
       success: true,
-      debug: true,
-      message: "Field discovery mode — showing raw Treasury response",
-      availableFields: Object.keys(rows[0]),
-      sampleRow: rows[0],
-      totalRows: json.meta?.total_count,
+      asOf: latestDate,
       fetchedAt: new Date().toISOString(),
+      agencies: results,
+      computed: {
+        dhsEnforcementSurge:
+          results.dhs?.currentFiscalYearToDate && results.dhs?.priorFiscalYearToDate
+            ? results.dhs.currentFiscalYearToDate - results.dhs.priorFiscalYearToDate
+            : null,
+      },
+      note: "Values are actual outlays in USD. Source: US Treasury MTS Table 5.",
     });
 
   } catch (error) {
+    console.error("Treasury API error:", error.message);
     return res.status(200).json({
       success: false,
       error: error.message,
+      asOf: null,
       fetchedAt: new Date().toISOString(),
+      agencies: {},
+      computed: {},
+      note: "Treasury data temporarily unavailable. Displaying estimated figures.",
     });
   }
 };
