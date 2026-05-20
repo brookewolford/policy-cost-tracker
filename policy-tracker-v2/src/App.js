@@ -225,7 +225,7 @@ export default function App() {
   const [elapsed, setElapsed] = useState(0);
   const [treasuryData, setTreasuryData] = useState(null);
   const [treasuryStatus, setTreasuryStatus] = useState("loading");
-
+const [activeTab, setActiveTab] = useState("tracker");
   useEffect(() => {
     const id = setInterval(() => setElapsed((Date.now() - startRef.current) / 1000), 1000);
     return () => clearInterval(id);
@@ -322,7 +322,7 @@ export default function App() {
         </div>
       </div>
 
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "24px 24px 60px" }}>
+      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "0 24px" }}>         <div style={{ display: "flex", gap: "4px", padding: "16px 0 0", borderBottom: "2px solid #222", marginBottom: "24px" }}>           {[["tracker", "Policy Cost Tracker"], ["recession", "Recession Risk Indicator"]].map(([id, label]) => (             <button               key={id}               onClick={() => setActiveTab(id)}               style={{                 padding: "9px 20px",                 fontFamily: "monospace",                 fontSize: "12px",                 letterSpacing: "1px",                 fontWeight: 700,                 border: "none",                 borderRadius: "4px 4px 0 0",                 cursor: "pointer",                 background: activeTab === id ? "#c0392b" : "transparent",                 color: activeTab === id ? "#fff" : "#666",                 transition: "all 0.15s",               }}             >               {label.toUpperCase()}             </button>           ))}         </div>          {activeTab === "recession" && <RecessionIndicator />}          {activeTab === "tracker" && <div style={{ paddingBottom: "60px" }}>
 
         <div style={{ background: "#141414", border: "1px solid #2a2a2a", borderRadius: "6px", padding: "16px 20px", marginBottom: "24px", fontSize: "13px", color: "#bbb", lineHeight: "1.8" }}>
           <strong style={{ color: "#eee", fontSize: "14px" }}>How this works:</strong> Items marked{" "}
@@ -378,10 +378,11 @@ export default function App() {
           Treasury data: fiscaldata.treasury.gov (MTS Table 5, free public API, no key required)<br />
           Other sources: CBO · Tax Foundation · Brennan Center · National Immigration Forum · Pentagon Congressional Testimony · AP · NPR · CBS News · CNN · ABC News<br />
           <span style={{ color: "#444" }}>Treasury figures refresh automatically. CBO/projection figures reviewed manually when new scores are published.</span>
-        </div>
+      </div>}
+
       </div>
 
-      <style>{`
+      <style>
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         * { box-sizing: border-box; }
         body { margin: 0; background: #0a0a0a; }
