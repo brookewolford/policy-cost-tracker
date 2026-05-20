@@ -373,16 +373,19 @@ const [activeTab, setActiveTab] = useState("tracker");
           ))}
         </div>
 
-        <div style={{ marginTop: "32px", paddingTop: "18px", borderTop: "1px solid #1e1e1e", fontSize: "12px", color: "#555", lineHeight: "2", textAlign: "center" }}>
+      <div style={{ marginTop: "32px", paddingTop: "18px", borderTop: "1px solid #1e1e1e", fontSize: "12px", color: "#555", lineHeight: "2", textAlign: "center" }}>
           Research and analysis by B.M. Wolford for BMW Substack<br />
           Treasury data: fiscaldata.treasury.gov (MTS Table 5, free public API, no key required)<br />
           Other sources: CBO · Tax Foundation · Brennan Center · National Immigration Forum · Pentagon Congressional Testimony · AP · NPR · CBS News · CNN · ABC News<br />
           <span style={{ color: "#444" }}>Treasury figures refresh automatically. CBO/projection figures reviewed manually when new scores are published.</span>
-      </div>}
+        </div>
+
+        </div>
+        </>}
 
       </div>
 
-      <style>
+      <style>{`
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         * { box-sizing: border-box; }
         body { margin: 0; background: #0a0a0a; }
@@ -390,7 +393,6 @@ const [activeTab, setActiveTab] = useState("tracker");
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
       `}</style>
-   </div>
-        </>}
+    </div>
   );
 }
