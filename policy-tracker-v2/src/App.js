@@ -1,4 +1,5 @@
 import RecessionIndicator from './RecessionIndicator';
+import CounterfactualTab from './CounterfactualTab';
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const STATIC_CATEGORIES = [
@@ -325,7 +326,7 @@ export default function App() {
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "0 24px" }}>
         <div style={{ display: "flex", gap: "4px", padding: "16px 0 0", borderBottom: "2px solid #222", marginBottom: "24px" }}>
-          {[["tracker", "Policy Cost Tracker"], ["recession", "Recession Risk Indicator"]].map(([id, label]) => (
+          {[["tracker", "Policy Cost Tracker"], ["recession", "Recession Risk Indicator"], ["counterfactual", "What Could Have Been"]].map(([id, label]) => (
             <button
               key={id}
               onClick={() => setActiveTab(id)}
@@ -349,6 +350,8 @@ export default function App() {
         </div>
 
         {activeTab === "recession" && <RecessionIndicator />}
+
+        {activeTab === "counterfactual" && <CounterfactualTab trackerTotal={total} />}
 
         {activeTab === "tracker" && (
           <div style={{ paddingBottom: "60px" }}>
