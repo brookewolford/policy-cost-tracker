@@ -1,5 +1,6 @@
 import RecessionIndicator from './RecessionIndicator';
 import CounterfactualTab from './CounterfactualTab';
+import FamilyCalculator from './FamilyCalculator';
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const STATIC_CATEGORIES = [
@@ -404,6 +405,8 @@ export default function App() {
                 </div>
               ))}
             </div>
+
+            <FamilyCalculator />
 
             <div style={{ marginTop: "32px", paddingTop: "18px", borderTop: "1px solid #1e1e1e", fontSize: "12px", color: "#555", lineHeight: "2", textAlign: "center" }}>
               Research and analysis by B.M. Wolford for BMW Substack<br />
