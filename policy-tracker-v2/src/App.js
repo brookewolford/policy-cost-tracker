@@ -607,42 +607,100 @@ export default function App() {
       </div>
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "0 24px" }}>
-        <div style={{ display: "flex", gap: "4px", padding: "16px 0 0", borderBottom: "1px solid #e0ddd8", marginBottom: "24px", flexWrap: "wrap" }}>
-          {[
-            ["tracker", "Policy Cost Tracker"],
-            ["family", "Family Calculator"],
-            ["recession", "Recession Risk"],
-            ["counterfactual", "What Could Have Been"],
-            ["housing", "Housing Cuts"],
-            ["jobs", "Federal Jobs"],
-            ["medicaid", "Medicaid Loss"],
-            ["snap", "SNAP Cuts"],
-            ["tariff", "Tariff by State"],
-            ["loans", "Student Loans"],
-            ["mortgage", "Mortgage & Yields"],
-            ["changelog", "What's New"],
-          ].map(([id, label]) => (
-            <button
-              key={id}
-              onClick={() => setActiveTab(id)}
-              style={{
-                padding: "9px 20px",
-                fontFamily: "monospace",
-                fontSize: "12px",
-                letterSpacing: "1px",
-                fontWeight: 700,
-                border: "none",
-                borderRadius: "4px 4px 0 0",
-                cursor: "pointer",
-                background: activeTab === id ? "#c0392b" : "transparent",
-                color: activeTab === id ? "#fff" : "#888888",
-                transition: "all 0.15s",
-              }}
-            >
-              {label.toUpperCase()}
-            </button>
-          ))}
+        {/* Tab nav */}
+        <div style={{ padding: "16px 0 20px", marginBottom: "8px" }}>
+          {/* Row 1: main tabs */}
+          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "6px" }}>
+            {[
+              ["tracker",       "📊 Cost Tracker",     "#7b3fa0"],
+              ["family",        "👨‍👩‍👧 Family Impact",    "#c0392b"],
+              ["recession",     "📉 Recession Risk",   "#d95926"],
+              ["counterfactual","💡 What Could Be",    "#2471a3"],
+            ].map(([id, label, color]) => (
+              <button
+                key={id}
+                onClick={() => setActiveTab(id)}
+                style={{
+                  padding: "9px 16px",
+                  fontFamily: "monospace",
+                  fontSize: "11px",
+                  letterSpacing: "0.5px",
+                  fontWeight: 700,
+                  border: `2px solid ${color}`,
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  background: activeTab === id ? color : "#ffffff",
+                  color: activeTab === id ? "#fff" : color,
+                  transition: "all 0.15s",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {label.toUpperCase()}
+              </button>
+            ))}
+          </div>
+          {/* Row 2: state/data tabs */}
+          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "6px" }}>
+            {[
+              ["housing",  "🏠 Housing Cuts",     "#1a6e1a"],
+              ["jobs",     "👷 Federal Jobs",      "#1a6e1a"],
+              ["medicaid", "🏥 Medicaid Loss",     "#1a6e1a"],
+              ["snap",     "🛒 SNAP Cuts",         "#1a6e1a"],
+              ["tariff",   "🌐 Tariff by State",   "#1a6e1a"],
+            ].map(([id, label, color]) => (
+              <button
+                key={id}
+                onClick={() => setActiveTab(id)}
+                style={{
+                  padding: "9px 16px",
+                  fontFamily: "monospace",
+                  fontSize: "11px",
+                  letterSpacing: "0.5px",
+                  fontWeight: 700,
+                  border: `2px solid ${color}`,
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  background: activeTab === id ? color : "#ffffff",
+                  color: activeTab === id ? "#fff" : color,
+                  transition: "all 0.15s",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {label.toUpperCase()}
+              </button>
+            ))}
+          </div>
+          {/* Row 3: calculators + changelog */}
+          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+            {[
+              ["loans",     "🎓 Student Loans",    "#a06800"],
+              ["mortgage",  "🏡 Mortgage & Yields","#a06800"],
+              ["changelog", "🆕 What's New",       "#4a4a4a"],
+            ].map(([id, label, color]) => (
+              <button
+                key={id}
+                onClick={() => setActiveTab(id)}
+                style={{
+                  padding: "9px 16px",
+                  fontFamily: "monospace",
+                  fontSize: "11px",
+                  letterSpacing: "0.5px",
+                  fontWeight: 700,
+                  border: `2px solid ${color}`,
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  background: activeTab === id ? color : "#ffffff",
+                  color: activeTab === id ? "#fff" : color,
+                  transition: "all 0.15s",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {label.toUpperCase()}
+              </button>
+            ))}
+          </div>
         </div>
+        <div style={{ borderBottom: "2px solid #e0ddd8", marginBottom: "24px" }} />
 
         {activeTab === "recession" && <RecessionIndicator />}
         {activeTab === "counterfactual" && <CounterfactualTab trackerTotal={total} />}
