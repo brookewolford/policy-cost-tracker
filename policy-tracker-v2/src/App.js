@@ -133,7 +133,7 @@ function exportImage(total, allCats, allAmounts) {
   ctx.scale(2, 2);
 
   // Background
-  ctx.fillStyle = "#0a0a0a";
+  ctx.fillStyle = "#f7f6f3";
   ctx.fillRect(0, 0, W, H);
 
   // Top accent bar
@@ -141,34 +141,34 @@ function exportImage(total, allCats, allAmounts) {
   ctx.fillRect(0, 0, W, 6);
 
   // Byline
-  ctx.fillStyle = "#e05555";
+  ctx.fillStyle = "#c0392b";
   ctx.font = "700 11px monospace";
   ctx.letterSpacing = "3px";
   ctx.fillText("B.M. WOLFORD / BMW SUBSTACK", 36, 38);
 
   // Title
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = "#1a1a1a";
   ctx.font = "700 26px Georgia, serif";
   ctx.letterSpacing = "0px";
   ctx.fillText("The Real Cost of Trump Policy", 36, 72);
 
   // Subtitle
-  ctx.fillStyle = "#888";
+  ctx.fillStyle = "#6b6b6b";
   ctx.font = "14px Georgia, serif";
   ctx.fillText("Authorized, allocated & projected taxpayer exposure · September 2026", 36, 96);
 
   // Big total
-  ctx.fillStyle = "#e05555";
+  ctx.fillStyle = "#c0392b";
   ctx.font = "700 58px monospace";
   ctx.textAlign = "right";
   ctx.fillText(fmt(total), W - 36, 86);
   ctx.font = "11px monospace";
-  ctx.fillStyle = "#555";
+  ctx.fillStyle = "#6b6b6b";
   ctx.fillText("TOTAL TAXPAYER EXPOSURE", W - 36, 102);
   ctx.textAlign = "left";
 
   // Divider
-  ctx.strokeStyle = "#222";
+  ctx.strokeStyle = "#e0ddd8";
   ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(36, 118); ctx.lineTo(W - 36, 118); ctx.stroke();
 
@@ -186,36 +186,36 @@ function exportImage(total, allCats, allAmounts) {
     ctx.fillRect(36, y + 4, 4, rowH - 10);
 
     // Label
-    ctx.fillStyle = cat.resolved ? "#666" : "#ccc";
+    ctx.fillStyle = cat.resolved ? "#6b6b6b" : "#1a1a1a";
     ctx.font = `${cat.resolved ? "12px" : "13px"} Georgia, serif`;
     ctx.fillText(cat.label, 50, y + 20);
 
     // Resolved badge
     if (cat.resolved) {
-      ctx.fillStyle = "#8888cc";
+      ctx.fillStyle = "#4040a0";
       ctx.font = "700 10px monospace";
       ctx.fillText("✓ RESOLVED", 50, y + 33);
     }
 
     // Amount
     ctx.textAlign = "right";
-    ctx.fillStyle = cat.resolved ? "#555" : "#e05555";
+    ctx.fillStyle = cat.resolved ? "#6b6b6b" : cat.color;
     ctx.font = "700 14px monospace";
     ctx.fillText(fmt(amt), W - 36, y + 22);
     ctx.textAlign = "left";
 
     // Row divider
     if (i < maxRows - 1) {
-      ctx.strokeStyle = "#1a1a1a";
+      ctx.strokeStyle = "#e0ddd8";
       ctx.lineWidth = 0.5;
       ctx.beginPath(); ctx.moveTo(50, y + rowH); ctx.lineTo(W - 36, y + rowH); ctx.stroke();
     }
   });
 
   // Footer
-  ctx.fillStyle = "#333";
+  ctx.fillStyle = "#eeebe6";
   ctx.fillRect(0, H - 36, W, 36);
-  ctx.fillStyle = "#666";
+  ctx.fillStyle = "#6b6b6b";
   ctx.font = "11px monospace";
   ctx.fillText("policy-cost-tracker.vercel.app", 36, H - 14);
   ctx.textAlign = "right";
@@ -251,7 +251,7 @@ function ShareButton({ total, allCats, allAmounts }) {
   }
 
   const btnBase = {
-    border: "1px solid #333",
+    border: "1px solid #d8d5d0",
     borderRadius: "4px",
     padding: "6px 12px",
     fontSize: "11px",
@@ -264,13 +264,13 @@ function ShareButton({ total, allCats, allAmounts }) {
 
   return (
     <div style={{ display: "flex", gap: "6px", alignItems: "center", flexWrap: "wrap" }}>
-      <span style={{ color: "#555", fontSize: "11px", fontFamily: "monospace", letterSpacing: "1px" }}>SHARE:</span>
-      <button onClick={handleTwitter} style={{ ...btnBase, background: "#1a1a1a", color: "#ccc" }}>𝕏 / Twitter</button>
-      <button onClick={handleBluesky} style={{ ...btnBase, background: "#1a1a1a", color: "#ccc" }}>Bluesky</button>
-      <button onClick={handleCopy} style={{ ...btnBase, background: copied ? "#0a2a0a" : "#1a1a1a", color: copied ? "#5dca5d" : "#ccc" }}>
+      <span style={{ color: "#6b6b6b", fontSize: "11px", fontFamily: "monospace", letterSpacing: "1px" }}>SHARE:</span>
+      <button onClick={handleTwitter} style={{ ...btnBase, background: "#f5f4f2", color: "#333" }}>𝕏 / Twitter</button>
+      <button onClick={handleBluesky} style={{ ...btnBase, background: "#f5f4f2", color: "#333" }}>Bluesky</button>
+      <button onClick={handleCopy} style={{ ...btnBase, background: copied ? "#edfaed" : "#f5f4f2", color: copied ? "#1a6e1a" : "#333" }}>
         {copied ? "✓ COPIED" : "Copy link"}
       </button>
-      <button onClick={handleExport} style={{ ...btnBase, background: "#1a1a1a", color: "#aaa" }}>
+      <button onClick={handleExport} style={{ ...btnBase, background: "#f5f4f2", color: "#333" }}>
         ↓ Export image
       </button>
     </div>
@@ -312,14 +312,14 @@ function CategoryRow({ cat, amount, treasuryData }) {
     <div
       onClick={() => setOpen(!open)}
       style={{
-        background: open ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.02)",
-        border: `1px solid ${cat.color}44`,
+        background: open ? "#fafaf8" : "#ffffff",
+        border: `1px solid ${open ? "#c8c4be" : "#e0ddd8"}`,
         borderLeft: `5px solid ${cat.color}`,
         borderRadius: "6px",
         marginBottom: "10px",
         cursor: "pointer",
         transition: "background 0.2s",
-        opacity: cat.resolved ? 0.8 : 1,
+        opacity: cat.resolved ? 0.75 : 1,
       }}
     >
       <div style={{ display: "flex", alignItems: "center", padding: "16px 18px", gap: "12px", flexWrap: "wrap" }}>
@@ -327,53 +327,53 @@ function CategoryRow({ cat, amount, treasuryData }) {
           <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap", marginBottom: "5px" }}>
             {/* Status badges */}
             {cat.resolved && (
-              <span style={{ fontFamily: "monospace", fontSize: "11px", padding: "3px 8px", borderRadius: "3px", background: "#1a1a2a", color: "#8888cc", border: "1px solid #3a3a6a", letterSpacing: "1px", fontWeight: 700 }}>
+              <span style={{ fontFamily: "monospace", fontSize: "11px", padding: "3px 8px", borderRadius: "3px", background: "#f0f0fa", color: "#4040a0", border: "1px solid #c0c0e0", letterSpacing: "1px", fontWeight: 700 }}>
                 ✓ RESOLVED
               </span>
             )}
             {isTreasuryLive && (
-              <span style={{ fontFamily: "monospace", fontSize: "11px", padding: "3px 8px", borderRadius: "3px", background: "#1a3a1a", color: "#5dca5d", border: "1px solid #3a7a3a", letterSpacing: "1px", fontWeight: 700 }}>
+              <span style={{ fontFamily: "monospace", fontSize: "11px", padding: "3px 8px", borderRadius: "3px", background: "#edfaed", color: "#1a6e1a", border: "1px solid #b0dab0", letterSpacing: "1px", fontWeight: 700 }}>
                 ● TREASURY LIVE
               </span>
             )}
             {isLive && !isTreasuryLive && !cat.resolved && (
-              <span style={{ fontFamily: "monospace", fontSize: "11px", padding: "3px 8px", borderRadius: "3px", background: "#3a1a1a", color: "#ff7b7b", border: "1px solid #6a3a3a", letterSpacing: "1px", fontWeight: 700 }}>
+              <span style={{ fontFamily: "monospace", fontSize: "11px", padding: "3px 8px", borderRadius: "3px", background: "#fdf0f0", color: "#b02020", border: "1px solid #e8b0b0", letterSpacing: "1px", fontWeight: 700 }}>
                 ● ACCRUING
               </span>
             )}
             {!isLive && !isTreasuryLive && !cat.resolved && (
-              <span style={{ fontFamily: "monospace", fontSize: "11px", padding: "3px 8px", borderRadius: "3px", background: "#1e1e1e", color: "#aaa", border: "1px solid #3a3a3a", letterSpacing: "1px", fontWeight: 700 }}>
+              <span style={{ fontFamily: "monospace", fontSize: "11px", padding: "3px 8px", borderRadius: "3px", background: "#f2f2f2", color: "#555555", border: "1px solid #d0d0d0", letterSpacing: "1px", fontWeight: 700 }}>
                 FIXED
               </span>
             )}
-            <span style={{ fontWeight: 700, fontSize: "16px", color: "#ffffff" }}>{cat.label}</span>
+            <span style={{ fontWeight: 700, fontSize: "16px", color: "#1a1a1a" }}>{cat.label}</span>
           </div>
-          <div style={{ fontSize: "13px", color: "#999", fontStyle: "italic", lineHeight: 1.4 }}>
+          <div style={{ fontSize: "13px", color: "#5a5a5a", fontStyle: "italic", lineHeight: 1.4 }}>
             {cat.resolved ? cat.resolvedNote || cat.subtitle : cat.subtitle}
           </div>
         </div>
         <div style={{ textAlign: "right", flexShrink: 0 }}>
           <AnimatedNumber value={amount} style={{ fontFamily: "monospace", fontSize: "22px", fontWeight: 700, color: cat.color, letterSpacing: "-0.5px" }} />
           {isLive && !cat.resolved && (
-            <div style={{ fontFamily: "monospace", fontSize: "11px", color: "#777", marginTop: "3px" }}>
+            <div style={{ fontFamily: "monospace", fontSize: "11px", color: "#888888", marginTop: "3px" }}>
               +{fmt(cat.ratePerSecond)}/sec
             </div>
           )}
           {isTreasuryLive && treasuryAgency && (
-            <div style={{ fontSize: "11px", color: "#5dca5d", marginTop: "3px" }}>
+            <div style={{ fontSize: "11px", color: "#1a6e1a", marginTop: "3px" }}>
               Treasury: {treasuryAgency.recordDate}
             </div>
           )}
         </div>
-        <span style={{ color: "#777", fontSize: "14px", fontWeight: 700 }}>{open ? "▲" : "▼"}</span>
+        <span style={{ color: "#aaaaaa", fontSize: "14px", fontWeight: 700 }}>{open ? "▲" : "▼"}</span>
       </div>
 
       {open && (
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", padding: "14px 18px 16px" }}>
-          <p style={{ fontSize: "14px", color: "#ccc", lineHeight: "1.75", marginBottom: "12px" }}>{cat.note}</p>
+        <div style={{ borderTop: "1px solid #eeebe6", padding: "14px 18px 16px" }}>
+          <p style={{ fontSize: "14px", color: "#333333", lineHeight: "1.75", marginBottom: "12px" }}>{cat.note}</p>
           {isTreasuryLive && treasuryAgency && (
-            <div style={{ background: "#0a1a0a", border: "1px solid #2a4a2a", borderRadius: "4px", padding: "12px 14px", marginBottom: "12px" }}>
-              <div style={{ fontSize: "12px", color: "#5dca5d", letterSpacing: "1px", marginBottom: "10px", fontFamily: "monospace", fontWeight: 700 }}>
+            <div style={{ background: "#f0faf0", border: "1px solid #c0dcc0", borderRadius: "4px", padding: "12px 14px", marginBottom: "12px" }}>
+              <div style={{ fontSize: "12px", color: "#1a6e1a", letterSpacing: "1px", marginBottom: "10px", fontFamily: "monospace", fontWeight: 700 }}>
                 TREASURY ACTUAL OUTLAYS — {treasuryAgency.agency?.toUpperCase()}
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
@@ -383,19 +383,19 @@ function CategoryRow({ cat, amount, treasuryData }) {
                   ["Prior FY Same Period", treasuryAgency.priorFiscalYearToDate],
                 ].map(([label, val]) => (
                   <div key={label}>
-                    <div style={{ fontSize: "11px", color: "#777", marginBottom: "3px" }}>{label}</div>
-                    <div style={{ fontFamily: "monospace", fontSize: "14px", color: "#5dca5d", fontWeight: 700 }}>{fmt(val)}</div>
+                    <div style={{ fontSize: "11px", color: "#6b6b6b", marginBottom: "3px" }}>{label}</div>
+                    <div style={{ fontFamily: "monospace", fontSize: "14px", color: "#1a6e1a", fontWeight: 700 }}>{fmt(val)}</div>
                   </div>
                 ))}
               </div>
             </div>
           )}
           {cat.treasuryLive && !treasuryAgency && (
-            <div style={{ fontSize: "13px", color: "#777", fontStyle: "italic", marginBottom: "10px" }}>
+            <div style={{ fontSize: "13px", color: "#6b6b6b", fontStyle: "italic", marginBottom: "10px" }}>
               Treasury data loading or temporarily unavailable. Showing estimated figures.
             </div>
           )}
-          <div style={{ fontSize: "12px", color: "#666", fontFamily: "monospace" }}>
+          <div style={{ fontSize: "12px", color: "#8a8a8a", fontFamily: "monospace" }}>
             SOURCE: {cat.source} &nbsp;|&nbsp; LAST REVIEWED: {cat.lastUpdated} &nbsp;|&nbsp; FIGURES VERIFIED: {cat.lastVerified}
           </div>
         </div>
@@ -466,7 +466,7 @@ export default function App() {
   const sessionAccrued = liveRate * elapsed;
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0a0a0a", color: "#e0e0e0", fontFamily: "Georgia, serif" }}>
+    <div style={{ minHeight: "100vh", background: "#f7f6f3", color: "#1a1a1a", fontFamily: "Georgia, serif" }}>
 
       {/* Marquee ticker with toggle */}
       {showMarquee && (
@@ -482,7 +482,7 @@ export default function App() {
             title="Hide ticker"
             style={{
               position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)",
-              background: "rgba(0,0,0,0.3)", border: "none", color: "#fff", borderRadius: "3px",
+              background: "rgba(0,0,0,0.15)", border: "none", color: "#fff", borderRadius: "3px",
               fontFamily: "monospace", fontSize: "11px", padding: "2px 8px", cursor: "pointer", fontWeight: 700,
             }}
           >
@@ -491,11 +491,11 @@ export default function App() {
         </div>
       )}
       {!showMarquee && (
-        <div style={{ background: "#1a0808", borderBottom: "1px solid #3a1a1a", padding: "4px 0", textAlign: "center" }}>
+        <div style={{ background: "#fff5f5", borderBottom: "1px solid #ffd0d0", padding: "4px 0", textAlign: "center" }}>
           <button
             onClick={() => setShowMarquee(true)}
             style={{
-              background: "transparent", border: "none", color: "#888", fontFamily: "monospace",
+              background: "transparent", border: "none", color: "#c0392b", fontFamily: "monospace",
               fontSize: "11px", cursor: "pointer", letterSpacing: "1px",
             }}
           >
@@ -505,25 +505,25 @@ export default function App() {
       )}
 
       {/* Sticky header */}
-      <div style={{ position: "sticky", top: 0, zIndex: 100, background: "#0d0d0d", borderBottom: "2px solid #222", boxShadow: "0 2px 24px rgba(0,0,0,0.9)" }}>
+      <div style={{ position: "sticky", top: 0, zIndex: 100, background: "#ffffff", borderBottom: "1px solid #e0ddd8", boxShadow: "0 1px 12px rgba(0,0,0,0.08)" }}>
         <div style={{ maxWidth: "900px", margin: "0 auto", padding: "18px 24px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
             <div>
-              <div style={{ fontFamily: "monospace", fontSize: "12px", letterSpacing: "3px", color: "#e05555", marginBottom: "7px", fontWeight: 700 }}>
+              <div style={{ fontFamily: "monospace", fontSize: "12px", letterSpacing: "3px", color: "#c0392b", marginBottom: "7px", fontWeight: 700 }}>
                 B.M. WOLFORD / BMW SUBSTACK
               </div>
-              <h1 style={{ fontFamily: "Georgia, serif", fontSize: "24px", fontWeight: 700, color: "#ffffff", margin: 0, lineHeight: 1.2 }}>
+              <h1 style={{ fontFamily: "Georgia, serif", fontSize: "24px", fontWeight: 700, color: "#1a1a1a", margin: 0, lineHeight: 1.2 }}>
                 The Real Cost of Trump Policy
               </h1>
-              <div style={{ fontSize: "13px", color: "#aaa", marginTop: "6px" }}>
+              <div style={{ fontSize: "13px", color: "#4a4a4a", marginTop: "6px" }}>
                 Authorized, allocated &amp; projected taxpayer exposure · Updated September 2026
               </div>
               <div style={{ marginTop: "8px", display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
                 <span style={{
                   fontFamily: "monospace", fontSize: "12px", padding: "4px 10px", borderRadius: "3px", display: "inline-block",
-                  background: treasuryStatus === "live" ? "#0a2a0a" : treasuryStatus === "loading" ? "#1a1a0a" : "#1e1212",
-                  color: treasuryStatus === "live" ? "#5dca5d" : treasuryStatus === "loading" ? "#f0c040" : "#cc8888",
-                  border: `1px solid ${treasuryStatus === "live" ? "#3a7a3a" : treasuryStatus === "loading" ? "#6a6020" : "#5a3030"}`,
+                  background: treasuryStatus === "live" ? "#edfaed" : treasuryStatus === "loading" ? "#fffbe6" : "#fdf0f0",
+                  color: treasuryStatus === "live" ? "#1a6e1a" : treasuryStatus === "loading" ? "#7a6010" : "#b02020",
+                  border: `1px solid ${treasuryStatus === "live" ? "#b0dab0" : treasuryStatus === "loading" ? "#e0d080" : "#e8b0b0"}`,
                   fontWeight: 600,
                 }}>
                   {treasuryStatus === "live" ? `● TREASURY LIVE — ${treasuryData?.asOf}` : treasuryStatus === "loading" ? "○ FETCHING TREASURY DATA..." : "○ TREASURY UNAVAILABLE — USING ESTIMATES"}
@@ -535,14 +535,14 @@ export default function App() {
               </div>
             </div>
             <div style={{ textAlign: "right" }}>
-              <div style={{ fontFamily: "monospace", fontSize: "34px", fontWeight: 700, color: "#e05555", letterSpacing: "-1px", lineHeight: 1 }}>
+              <div style={{ fontFamily: "monospace", fontSize: "34px", fontWeight: 700, color: "#c0392b", letterSpacing: "-1px", lineHeight: 1 }}>
                 <AnimatedNumber value={total} />
               </div>
-              <div style={{ fontFamily: "monospace", fontSize: "12px", color: "#888", marginTop: "5px" }}>+{fmt(liveRate)}/sec accruing</div>
-              <div style={{ fontFamily: "monospace", fontSize: "11px", color: "#555", marginTop: "3px" }}>{mins}m {secs}s this session</div>
+              <div style={{ fontFamily: "monospace", fontSize: "12px", color: "#888888", marginTop: "5px" }}>+{fmt(liveRate)}/sec accruing</div>
+              <div style={{ fontFamily: "monospace", fontSize: "11px", color: "#aaaaaa", marginTop: "3px" }}>{mins}m {secs}s this session</div>
               {/* Since you opened this tab */}
               {sessionAccrued > 0 && (
-                <div style={{ fontFamily: "monospace", fontSize: "11px", color: "#7a4a4a", marginTop: "3px" }}>
+                <div style={{ fontFamily: "monospace", fontSize: "11px", color: "rgba(192,57,43,0.8)", marginTop: "3px" }}>
                   +{fmt(sessionAccrued)} since you opened this
                 </div>
               )}
@@ -552,7 +552,7 @@ export default function App() {
       </div>
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "0 24px" }}>
-        <div style={{ display: "flex", gap: "4px", padding: "16px 0 0", borderBottom: "2px solid #222", marginBottom: "24px", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "4px", padding: "16px 0 0", borderBottom: "1px solid #e0ddd8", marginBottom: "24px", flexWrap: "wrap" }}>
           {[["tracker", "Policy Cost Tracker"], ["recession", "Recession Risk Indicator"], ["counterfactual", "What Could Have Been"]].map(([id, label]) => (
             <button
               key={id}
@@ -567,7 +567,7 @@ export default function App() {
                 borderRadius: "4px 4px 0 0",
                 cursor: "pointer",
                 background: activeTab === id ? "#c0392b" : "transparent",
-                color: activeTab === id ? "#fff" : "#666",
+                color: activeTab === id ? "#fff" : "#888888",
                 transition: "all 0.15s",
               }}
             >
@@ -583,23 +583,23 @@ export default function App() {
         {activeTab === "tracker" && (
           <div style={{ paddingBottom: "60px" }}>
 
-            <div style={{ background: "#141414", border: "1px solid #2a2a2a", borderRadius: "6px", padding: "16px 20px", marginBottom: "24px", fontSize: "13px", color: "#bbb", lineHeight: "1.8" }}>
-              <strong style={{ color: "#eee", fontSize: "14px" }}>How this works:</strong> Items marked{" "}
-              <span style={{ color: "#5dca5d", fontFamily: "monospace", fontWeight: 700 }}>TREASURY LIVE</span> pull real outlay data automatically from the US Treasury Fiscal Data API, updated each month. Items marked{" "}
-              <span style={{ color: "#ff7b7b", fontFamily: "monospace", fontWeight: 700 }}>ACCRUING</span> tick forward continuously based on authorized multi-year spending rates.{" "}
-              <span style={{ color: "#aaa", fontFamily: "monospace", fontWeight: 700 }}>FIXED</span> items are one-time allocations.{" "}
-              <span style={{ color: "#8888cc", fontFamily: "monospace", fontWeight: 700 }}>✓ RESOLVED</span> items are tracked for accountability but are no longer accruing. Click any row to expand sources and context.
-              {treasuryData?.asOf && <span style={{ color: "#5dca5d" }}> Treasury data current as of {treasuryData.asOf}.</span>}
+            <div style={{ background: "#f9f8f6", border: "1px solid #e0ddd8", borderRadius: "6px", padding: "16px 20px", marginBottom: "24px", fontSize: "13px", color: "#333333", lineHeight: "1.8" }}>
+              <strong style={{ color: "#1a1a1a", fontSize: "14px" }}>How this works:</strong> Items marked{" "}
+              <span style={{ color: "#1a6e1a", fontFamily: "monospace", fontWeight: 700 }}>TREASURY LIVE</span> pull real outlay data automatically from the US Treasury Fiscal Data API, updated each month. Items marked{" "}
+              <span style={{ color: "#b02020", fontFamily: "monospace", fontWeight: 700 }}>ACCRUING</span> tick forward continuously based on authorized multi-year spending rates.{" "}
+              <span style={{ color: "#555555", fontFamily: "monospace", fontWeight: 700 }}>FIXED</span> items are one-time allocations.{" "}
+              <span style={{ color: "#4040a0", fontFamily: "monospace", fontWeight: 700 }}>✓ RESOLVED</span> items are tracked for accountability but are no longer accruing. Click any row to expand sources and context.
+              {treasuryData?.asOf && <span style={{ color: "#1a6e1a" }}> Treasury data current as of {treasuryData.asOf}.</span>}
             </div>
 
-            <div style={{ fontFamily: "monospace", fontSize: "12px", color: "#5dca5d", letterSpacing: "2px", marginBottom: "10px", paddingLeft: "4px", fontWeight: 700 }}>
+            <div style={{ fontFamily: "monospace", fontSize: "12px", color: "#1a6e1a", letterSpacing: "2px", marginBottom: "10px", paddingLeft: "4px", fontWeight: 700 }}>
               ● LIVE TREASURY DATA
             </div>
             {TREASURY_CATEGORIES.map((cat, i) => (
               <CategoryRow key={cat.id} cat={cat} amount={treasuryAmounts[i]} treasuryData={treasuryData} />
             ))}
 
-            <div style={{ fontFamily: "monospace", fontSize: "12px", color: "#aaa", letterSpacing: "2px", margin: "20px 0 10px", paddingLeft: "4px", fontWeight: 700 }}>
+            <div style={{ fontFamily: "monospace", fontSize: "12px", color: "#6b6b6b", letterSpacing: "2px", margin: "20px 0 10px", paddingLeft: "4px", fontWeight: 700 }}>
               ○ CBO / AUTHORIZED FIGURES
             </div>
             {STATIC_CATEGORIES.map((cat, i) => (
@@ -607,19 +607,19 @@ export default function App() {
             ))}
 
             {/* Total bar */}
-            <div style={{ marginTop: "20px", background: "#111", border: "2px solid #c0392b66", borderRadius: "6px", padding: "22px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
+            <div style={{ marginTop: "20px", background: "#ffffff", border: "2px solid rgba(192,57,43,0.27)", borderRadius: "6px", padding: "22px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
               <div>
-                <div style={{ fontFamily: "monospace", fontSize: "13px", letterSpacing: "2px", color: "#ccc", textTransform: "uppercase", fontWeight: 700 }}>Total Taxpayer Exposure</div>
-                <div style={{ fontSize: "13px", color: "#777", marginTop: "5px" }}>Treasury actual + CBO projected + authorized</div>
+                <div style={{ fontFamily: "monospace", fontSize: "13px", letterSpacing: "2px", color: "#333333", textTransform: "uppercase", fontWeight: 700 }}>Total Taxpayer Exposure</div>
+                <div style={{ fontSize: "13px", color: "#888888", marginTop: "5px" }}>Treasury actual + CBO projected + authorized</div>
               </div>
-              <div style={{ fontFamily: "monospace", fontSize: "40px", fontWeight: 700, color: "#e05555", letterSpacing: "-1px" }}>
+              <div style={{ fontFamily: "monospace", fontSize: "40px", fontWeight: 700, color: "#c0392b", letterSpacing: "-1px" }}>
                 <AnimatedNumber value={total} />
               </div>
             </div>
 
             {/* What this could fund */}
-            <div style={{ marginTop: "16px", background: "#0b120b", border: "1px solid #1e3a1e", borderRadius: "6px", padding: "18px 22px" }}>
-              <div style={{ fontFamily: "monospace", fontSize: "12px", letterSpacing: "2px", color: "#5dca5d", marginBottom: "16px", textTransform: "uppercase", fontWeight: 700 }}>
+            <div style={{ marginTop: "16px", background: "#f2fbf2", border: "1px solid #c8e6c8", borderRadius: "6px", padding: "18px 22px" }}>
+              <div style={{ fontFamily: "monospace", fontSize: "12px", letterSpacing: "2px", color: "#1a6e1a", marginBottom: "16px", textTransform: "uppercase", fontWeight: 700 }}>
                 What This Could Fund Instead
               </div>
               {[
@@ -628,9 +628,9 @@ export default function App() {
                 { label: "Eliminate US Child Poverty", annual: 90_000_000_000, unit: "years" },
                 { label: "Rebuild Every Structurally Deficient Bridge", annual: 125_000_000_000, unit: "times over" },
               ].map(({ label, annual, unit }) => (
-                <div key={label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid #162416", flexWrap: "wrap", gap: "8px" }}>
-                  <span style={{ fontSize: "14px", color: "#ddd" }}>{label}</span>
-                  <span style={{ fontFamily: "monospace", fontSize: "14px", color: "#5dca5d", fontWeight: 700 }}>{(total / annual).toFixed(1)}× {unit}</span>
+                <div key={label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid #c8e6c8", flexWrap: "wrap", gap: "8px" }}>
+                  <span style={{ fontSize: "14px", color: "#333333" }}>{label}</span>
+                  <span style={{ fontFamily: "monospace", fontSize: "14px", color: "#1a6e1a", fontWeight: 700 }}>{(total / annual).toFixed(1)}× {unit}</span>
                 </div>
               ))}
             </div>
@@ -639,11 +639,11 @@ export default function App() {
             <FamilyCalculator />
 
             {/* Footer */}
-            <div style={{ marginTop: "32px", paddingTop: "18px", borderTop: "1px solid #1e1e1e", fontSize: "12px", color: "#555", lineHeight: "2", textAlign: "center" }}>
+            <div style={{ marginTop: "32px", paddingTop: "18px", borderTop: "1px solid #e0ddd8", fontSize: "12px", color: "#9a9a9a", lineHeight: "2", textAlign: "center" }}>
               Research and analysis by B.M. Wolford for BMW Substack<br />
               Treasury data: fiscaldata.treasury.gov (MTS Table 5, free public API, no key required)<br />
               Other sources: CBO · Tax Foundation · Brennan Center · National Immigration Forum · Pentagon Congressional Testimony · Just Security · Food Research and Action Center · AP · NPR · CBS News · CNN · ABC News<br />
-              <span style={{ color: "#444" }}>Treasury figures refresh automatically. CBO/projection figures last reviewed and verified September 2026.</span>
+              <span style={{ color: "#9a9a9a" }}>Treasury figures refresh automatically. CBO/projection figures last reviewed and verified September 2026.</span>
             </div>
 
           </div>
@@ -654,10 +654,10 @@ export default function App() {
       <style>{`
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         * { box-sizing: border-box; }
-        body { margin: 0; background: #0a0a0a; }
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        body { margin: 0; background: #f7f6f3; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f0ede8; }
+        ::-webkit-scrollbar-thumb { background: #ccc8c2; border-radius: 3px; }
       `}</style>
     </div>
   );
