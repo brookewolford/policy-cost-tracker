@@ -16,7 +16,7 @@ const STATIC_CATEGORIES = [
     source: "Congressional Budget Office dynamic score, Tax Foundation",
     treasuryLive: false,
     resolved: false,
-    note: "CBO updated dynamic score: $4.1–4.7T deficit increase over 10 years (revised from original $3.4T static score). Top 1% receives avg $50,000/yr tax cut. Bottom 10% lose $1,600/yr. National debt-to-GDP projected to climb from 162% to 190%+ over 35 years.",
+    note: "CBO updated dynamic score: $4.1–4.7T deficit increase over 10 years (revised from original $3.4T static score). Top 1% receives avg $50,000/yr tax cut. Bottom 10% lose $1,600/yr. National debt-to-GDP projected to climb from 162% to 190%+ over 35 years. Tariff revenue is paid overwhelmingly by American consumers, not foreign governments: Peterson Institute and Yale Budget Lab estimate 85–90% of tariff costs pass through to US households as higher prices, with lower-income households bearing the highest proportional burden.",
   },
   {
     id: "snap_medicaid_harm",
@@ -75,6 +75,34 @@ const STATIC_CATEGORIES = [
     resolved: false,
     note: "952 cases tracked by Just Security as of September 2026, up from 753 in April. Roughly 1.5 new cases per day. Democratic AGs report winning 55 of 67 decided cases. Challenges span immigration, tariffs, constitutional authority, and executive orders.",
   },
+  {
+    id: "doge_gap",
+    label: "DOGE Unverified Savings Claims",
+    subtitle: "$147.6B in claimed savings remain unverified or disputed by GAO and independent auditors",
+    baseAmount: 147_600_000_000,
+    ratePerSecond: 0,
+    color: "#7b68ee",
+    lastUpdated: "September 2026",
+    lastVerified: "September 2026",
+    source: "DOGE.gov dashboard vs. GAO-26-106361, Reuters fact-check, USASpending.gov",
+    treasuryLive: false,
+    resolved: false,
+    note: "DOGE claimed $160B+ in savings through September 2026. GAO and independent auditors have verified approximately $12.4B — 7.8% of the claimed figure. The gap ($147.6B) represents fiscal claims made to the public that have not been independently confirmed. Categories include: $156.6B in claimed contract cancellations vs. $3.2B verified; $29B workforce savings vs. $4.1B verified; $7.8B real estate disposals vs. $340M verified. Source: GAO-26-106361 (Sept 2026); Reuters fact-check Sept 2026; USASpending.gov cancellation records.",
+  },
+  {
+    id: "debt_interest",
+    label: "Interest Cost on OBBBA-Added Debt",
+    subtitle: "~$820B–$1.05T additional interest over 10 years at current Treasury rates",
+    baseAmount: 935_000_000_000,
+    ratePerSecond: 2_963,
+    color: "#e74c3c",
+    lastUpdated: "September 2026",
+    lastVerified: "September 2026",
+    source: "CBO Long-Term Budget Outlook 2026; OMB interest rate projections",
+    treasuryLive: false,
+    resolved: false,
+    note: "The $4.1T deficit increase added by OBBBA generates compounding interest costs not included in CBO's headline deficit figure. At current 10-year Treasury rates (~4.2%), CBO projects $820B–$1.05T in additional interest payments over 10 years. Midpoint: ~$935B. This is the cost of borrowing to finance the tax cuts — ultimately paid through future taxes or reduced public services. ratePerSecond computed as $935B / 10yr / 365.25 / 86400.",
+  },
 ];
 
 const TREASURY_CATEGORIES = [
@@ -117,6 +145,20 @@ function fmt(n) {
   if (abs >= 1e9)  return `$${(n / 1e9).toFixed(2)}B`;
   if (abs >= 1e6)  return `$${(n / 1e6).toFixed(1)}M`;
   return `$${Math.floor(n).toLocaleString()}`;
+}
+
+function isStale(lastVerified) {
+  // Returns true if lastVerified is more than 90 days before today (Sept 2026)
+  // Since all figures are "September 2026" they are current — but future edits may lag
+  const today = new Date("2026-09-29");
+  if (!lastVerified) return false;
+  // Parse "Month YYYY" format
+  const months = { January:0,February:1,March:2,April:3,May:4,June:5,
+    July:6,August:7,September:8,October:9,November:10,December:11 };
+  const parts = lastVerified.split(" ");
+  if (parts.length !== 2) return false;
+  const d = new Date(parseInt(parts[1]), months[parts[0]] || 0, 1);
+  return (today - d) > 90 * 24 * 60 * 60 * 1000;
 }
 
 // Share helpers
@@ -397,6 +439,11 @@ function CategoryRow({ cat, amount, treasuryData }) {
           )}
           <div style={{ fontSize: "12px", color: "#8a8a8a", fontFamily: "monospace" }}>
             SOURCE: {cat.source} &nbsp;|&nbsp; LAST REVIEWED: {cat.lastUpdated} &nbsp;|&nbsp; FIGURES VERIFIED: {cat.lastVerified}
+            {isStale(cat.lastVerified) && (
+              <span style={{ color: "#a06800", fontFamily: "monospace", fontSize: "11px", marginLeft: "8px" }}>
+                ⚠ VERIFY: figure may be outdated
+              </span>
+            )}
           </div>
         </div>
       )}
@@ -588,7 +635,8 @@ export default function App() {
               <span style={{ color: "#1a6e1a", fontFamily: "monospace", fontWeight: 700 }}>TREASURY LIVE</span> pull real outlay data automatically from the US Treasury Fiscal Data API, updated each month. Items marked{" "}
               <span style={{ color: "#b02020", fontFamily: "monospace", fontWeight: 700 }}>ACCRUING</span> tick forward continuously based on authorized multi-year spending rates.{" "}
               <span style={{ color: "#555555", fontFamily: "monospace", fontWeight: 700 }}>FIXED</span> items are one-time allocations.{" "}
-              <span style={{ color: "#4040a0", fontFamily: "monospace", fontWeight: 700 }}>✓ RESOLVED</span> items are tracked for accountability but are no longer accruing. Click any row to expand sources and context.
+              <span style={{ color: "#4040a0", fontFamily: "monospace", fontWeight: 700 }}>✓ RESOLVED</span> items are tracked for accountability but are no longer accruing. Click any row to expand sources and context.{" "}
+              Figures marked <span style={{ color: "#a06800", fontFamily: "monospace", fontWeight: 700 }}>⚠ VERIFY</span> have not been reviewed in more than 90 days and should be independently confirmed before citing.
               {treasuryData?.asOf && <span style={{ color: "#1a6e1a" }}> Treasury data current as of {treasuryData.asOf}.</span>}
             </div>
 
