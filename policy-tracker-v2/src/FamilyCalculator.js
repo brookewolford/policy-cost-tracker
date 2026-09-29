@@ -317,8 +317,8 @@ function QuintileChart({ selectedIncome }) {
     const subtitleH = 18;
     const topPad = titleH + subtitleH + 8;
     const bottomPad = 16;
-    const leftColW = 108;
-    const rightPad = 12;
+    const leftColW = 140;
+    const rightPad = 60;
     const chartLeft = leftColW + 4;
     const chartRight = cssWidth - rightPad;
     const chartW = chartRight - chartLeft;
@@ -399,32 +399,30 @@ function QuintileChart({ selectedIncome }) {
       ctx.fill();
       ctx.globalAlpha = 1.0;
 
-      // "YOU ARE HERE" label for selected
+      // "YOU ARE HERE" label for selected — always draws right of bar end
       if (isSelected) {
-        const labelX = isGain ? barX + barW + 6 : barX - 6;
-        const textAlign = isGain ? "left" : "right";
-        ctx.textAlign = textAlign;
+        const labelX = barX + barW + 4;
+        ctx.textAlign = "left";
         ctx.fillStyle = baseColor;
         ctx.font = "bold 9px monospace";
-        ctx.fillText("YOU ARE HERE", labelX, y + barH / 2 - 5);
+        ctx.fillText("YOU ARE HERE ▶", labelX, y + barH / 2 - 5);
         ctx.textAlign = "left";
       }
 
-      // Value label at end of bar
+      // Value label: always outside the bar, never overlapping the income label
       const valText = (isGain ? "+" : "") + "$" + Math.abs(d.net).toLocaleString();
       ctx.font = "bold 11px monospace";
       ctx.fillStyle = baseColor;
+      const labelY = isSelected ? y + barH / 2 + 5 : y + barH / 2 + 4;
       if (isGain) {
+        // Draw to the right of the bar (into the right padding area)
         ctx.textAlign = "left";
-        const labelX = barX + barW + 6;
-        // If "YOU ARE HERE" already there, push value below
-        const labelY = isSelected ? y + barH / 2 + 5 : y + barH / 2 + 4;
-        ctx.fillText(valText, labelX, labelY);
+        ctx.fillText(valText, barX + barW + 6, labelY);
       } else {
-        ctx.textAlign = "right";
-        const labelX = barX - 6;
-        const labelY = isSelected ? y + barH / 2 + 5 : y + barH / 2 + 4;
-        ctx.fillText(valText, labelX, labelY);
+        // Draw to the RIGHT of the bar end (between bar left edge and zero line)
+        // so it never bleeds into the income label column
+        ctx.textAlign = "left";
+        ctx.fillText(valText, barX + barW + 4, labelY);
       }
       ctx.textAlign = "left";
 
