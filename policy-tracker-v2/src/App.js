@@ -1,6 +1,14 @@
 import RecessionIndicator from './RecessionIndicator';
 import CounterfactualTab from './CounterfactualTab';
 import FamilyCalculator from './FamilyCalculator';
+import TariffMap from './TariffMap';
+import SnapByState from './SnapByState';
+import HousingCuts from './HousingCuts';
+import MedicaidCoverage from './MedicaidCoverage';
+import JobsTracker from './JobsTracker';
+import StudentLoanCalc from './StudentLoanCalc';
+import MortgageYieldChart from './MortgageYieldChart';
+import Changelog from './Changelog';
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const STATIC_CATEGORIES = [
@@ -600,7 +608,20 @@ export default function App() {
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "0 24px" }}>
         <div style={{ display: "flex", gap: "4px", padding: "16px 0 0", borderBottom: "1px solid #e0ddd8", marginBottom: "24px", flexWrap: "wrap" }}>
-          {[["tracker", "Policy Cost Tracker"], ["recession", "Recession Risk Indicator"], ["counterfactual", "What Could Have Been"]].map(([id, label]) => (
+          {[
+            ["tracker", "Policy Cost Tracker"],
+            ["family", "Family Calculator"],
+            ["recession", "Recession Risk"],
+            ["counterfactual", "What Could Have Been"],
+            ["housing", "Housing Cuts"],
+            ["jobs", "Federal Jobs"],
+            ["medicaid", "Medicaid Loss"],
+            ["snap", "SNAP Cuts"],
+            ["tariff", "Tariff by State"],
+            ["loans", "Student Loans"],
+            ["mortgage", "Mortgage & Yields"],
+            ["changelog", "What's New"],
+          ].map(([id, label]) => (
             <button
               key={id}
               onClick={() => setActiveTab(id)}
@@ -624,8 +645,16 @@ export default function App() {
         </div>
 
         {activeTab === "recession" && <RecessionIndicator />}
-
         {activeTab === "counterfactual" && <CounterfactualTab trackerTotal={total} />}
+        {activeTab === "family" && <FamilyCalculator />}
+        {activeTab === "housing" && <HousingCuts />}
+        {activeTab === "jobs" && <JobsTracker />}
+        {activeTab === "medicaid" && <MedicaidCoverage />}
+        {activeTab === "snap" && <SnapByState />}
+        {activeTab === "tariff" && <TariffMap />}
+        {activeTab === "loans" && <StudentLoanCalc />}
+        {activeTab === "mortgage" && <MortgageYieldChart />}
+        {activeTab === "changelog" && <Changelog />}
 
         {activeTab === "tracker" && (
           <div style={{ paddingBottom: "60px" }}>
