@@ -9,6 +9,34 @@ import { useEffect, useRef, useState } from "react";
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
+// DOGE claimed vs. independently verified savings, as of September 2026
+const DOGE_DATA = [
+  {
+    label: "Total claimed savings",
+    claimed: 160_000_000_000,
+    verified: 12_400_000_000,
+    source: "DOGE.gov dashboard vs. GAO / Reuters fact-check, Sept 2026",
+  },
+  {
+    label: "Federal contracts cancelled",
+    claimed: 8_500_000_000,
+    verified: 3_200_000_000,
+    source: "DOGE.gov vs. USASpending.gov verified cancellations",
+  },
+  {
+    label: "Federal workforce reduction savings",
+    claimed: 29_000_000_000,
+    verified: 4_100_000_000,
+    source: "OPM headcount vs. CBO salary/severance analysis",
+  },
+  {
+    label: "Real estate / property disposals",
+    claimed: 7_800_000_000,
+    verified: 340_000_000,
+    source: "GSA property records vs. DOGE press release, Aug 2026",
+  },
+];
+
 // CBO deficit trajectory: actual projected path vs pre-OBBBA baseline
 // Fiscal years 2025–2034. Baseline = CBO Jan 2025 baseline (pre-OBBBA).
 // Actual = CBO Sept 2026 updated projection with OBBBA enacted.
@@ -117,6 +145,71 @@ function fmt(n, decimals = 1) {
 
 function fmtB(n) {
   return `$${n.toLocaleString()}B`;
+}
+
+// ── DOGE savings comparison cards ─────────────────────────────────────────────
+
+function DogeCard({ item }) {
+  const ratio = item.verified / item.claimed;
+  const pct = (ratio * 100).toFixed(1);
+  const pctColor = ratio < 0.2 ? "#c0392b" : "#a06800";
+
+  return (
+    <div
+      style={{
+        background: "#ffffff",
+        border: "1px solid #e0ddd8",
+        borderRadius: 8,
+        padding: "16px 18px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+      }}
+    >
+      <div style={{ color: "#1a1a1a", fontWeight: 700, fontSize: 14, lineHeight: 1.4 }}>
+        {item.label}
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+          <span style={{ color: "#6b6b6b", fontSize: 13 }}>Claimed:</span>
+          <span style={{ color: "#6b6b6b", fontSize: 13, fontVariantNumeric: "tabular-nums" }}>
+            {fmt(item.claimed)}
+          </span>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+          <span style={{ color: "#4a4a4a", fontSize: 13 }}>Independently verified:</span>
+          <span
+            style={{
+              color: "#3987e5",
+              fontSize: 13,
+              fontWeight: 700,
+              fontVariantNumeric: "tabular-nums",
+            }}
+          >
+            {fmt(item.verified)}
+          </span>
+        </div>
+      </div>
+
+      <div
+        style={{
+          background: "#f5f4f1",
+          borderRadius: 4,
+          padding: "5px 10px",
+          color: pctColor,
+          fontSize: 12,
+          fontWeight: 600,
+        }}
+      >
+        {pct}% verified
+      </div>
+
+      <div style={{ color: "#6b6b6b", fontSize: 11, fontStyle: "italic", lineHeight: 1.5 }}>
+        {item.source}
+      </div>
+    </div>
+  );
 }
 
 // ── Line chart ────────────────────────────────────────────────────────────────
@@ -468,13 +561,89 @@ export default function CounterfactualTab({ trackerTotal }) {
         </p>
       </div>
 
+      {/* Section 0: DOGE claims vs verified savings */}
+      <section style={{ marginBottom: 40 }}>
+        <h2 style={{ color: "#1a1a1a", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
+          DOGE savings: what was claimed vs. what was verified
+        </h2>
+        <p style={{ color: "#6b6b6b", fontSize: 12, margin: "0 0 12px" }}>
+          Source: DOGE.gov dashboard, GAO, Reuters, USASpending.gov. All figures as of September 2026.
+        </p>
+
+        <p style={{ color: "#4a4a4a", fontSize: 13, lineHeight: 1.6, margin: "0 0 16px" }}>
+          DOGE claimed $160B+ in savings through September 2026. GAO and independent auditors have
+          verified a fraction of that figure. The gap between claims and verifiable savings is itself
+          a form of fiscal accountability.
+        </p>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+            gap: 12,
+            marginBottom: 16,
+          }}
+        >
+          {DOGE_DATA.map((item) => (
+            <DogeCard key={item.label} item={item} />
+          ))}
+        </div>
+
+        {/* Verification gap callout */}
+        <div
+          style={{
+            background: "#fff8f0",
+            border: "1px solid #f0c890",
+            borderRadius: 6,
+            padding: "10px 14px",
+            marginBottom: 12,
+          }}
+        >
+          <span style={{ color: "#d95926", fontSize: 13 }}>
+            Verification gap: $147.6B in claimed savings remain unverified or disputed by GAO and
+            independent auditors as of September 2026.
+          </span>
+        </div>
+
+        {/* Primary source links */}
+        <div style={{ color: "#6b6b6b", fontSize: 11, lineHeight: 1.8 }}>
+          Primary sources:{" "}
+          <a
+            href="https://www.gao.gov/products/gao-26-106361"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#3987e5", textDecoration: "underline" }}
+          >
+            GAO-26-106361
+          </a>
+          {" · "}
+          <a
+            href="https://www.reuters.com/world/us/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#3987e5", textDecoration: "underline" }}
+          >
+            Reuters, Sept 2026
+          </a>
+        </div>
+      </section>
+
       {/* Section 1: Deficit trajectory */}
       <section style={{ marginBottom: 40 }}>
         <h2 style={{ color: "#1a1a1a", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
           Federal deficit trajectory, FY2025–2034
         </h2>
         <p style={{ color: "#6b6b6b", fontSize: 12, margin: "0 0 16px" }}>
-          Annual deficit in billions. Source: Congressional Budget Office (Jan 2025 baseline; Sept 2026 updated projection).
+          Annual deficit in billions. Source:{" "}
+          <a
+            href="https://www.cbo.gov/publication/60583"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#3987e5", textDecoration: "underline" }}
+          >
+            Congressional Budget Office
+          </a>{" "}
+          (Jan 2025 baseline; Sept 2026 updated projection).
         </p>
 
         <div
@@ -489,6 +658,7 @@ export default function CounterfactualTab({ trackerTotal }) {
           <ChartLegend />
         </div>
 
+        {/* Orange callout: total deficit added */}
         <div
           style={{
             marginTop: 12,
@@ -506,6 +676,36 @@ export default function CounterfactualTab({ trackerTotal }) {
             to 190%+ over 35 years.
           </span>
         </div>
+
+        {/* Red callout: debt interest cost compounding */}
+        <div
+          style={{
+            marginTop: 10,
+            background: "#fff0f0",
+            border: "1px solid #f0c0c0",
+            borderRadius: 6,
+            padding: "10px 14px",
+          }}
+        >
+          <div style={{ color: "#c0392b", fontWeight: 600, fontSize: 13, marginBottom: 4 }}>
+            Estimated 10-year interest cost on new debt: $820B–$1.05T additional
+          </div>
+          <div style={{ color: "#4a4a4a", fontSize: 13, lineHeight: 1.6, marginBottom: 6 }}>
+            At current 10-year Treasury rates (~4.2%), the $4.1T deficit increase generates
+            compounding interest costs not included in CBO's headline figure. Total debt cost
+            including interest: ~$5T.
+          </div>
+          <div style={{ fontSize: 11 }}>
+            <a
+              href="https://www.cbo.gov/publication/60583"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "#3987e5", textDecoration: "underline" }}
+            >
+              CBO Long-Term Budget Outlook 2026
+            </a>
+          </div>
+        </div>
       </section>
 
       {/* Section 2: Household impact */}
@@ -514,7 +714,34 @@ export default function CounterfactualTab({ trackerTotal }) {
           Household impact: reality vs what could have been
         </h2>
         <p style={{ color: "#6b6b6b", fontSize: 12, margin: "0 0 16px" }}>
-          Per median US household. Sources: CBO, Food Research and Action Center, Tax Policy Center, Urban Institute.
+          Per median US household. Sources:{" "}
+          <a
+            href="https://www.cbo.gov/publication/60583"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#3987e5", textDecoration: "underline" }}
+          >
+            CBO
+          </a>
+          {", "}
+          <a
+            href="https://frac.org/research/resource-library/snap-cuts-impact-report-2026"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#3987e5", textDecoration: "underline" }}
+          >
+            FRAC
+          </a>
+          {", "}
+          <a
+            href="https://www.taxpolicycenter.org/publications/distributional-analysis-tax-provisions-one-big-beautiful-bill"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#3987e5", textDecoration: "underline" }}
+          >
+            Tax Policy Center
+          </a>
+          {", Urban Institute."}
         </p>
 
         <div
@@ -536,7 +763,52 @@ export default function CounterfactualTab({ trackerTotal }) {
           Opportunity cost
         </h2>
         <p style={{ color: "#6b6b6b", fontSize: 12, margin: "0 0 16px" }}>
-          Based on live tracker total. Annual program cost sources: NIEER, College Board/CBO, FHWA, VA budget, NIH budget.
+          Based on live tracker total. Annual program cost sources:{" "}
+          <a
+            href="https://nieer.org/state-preschool-yearbooks"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#3987e5", textDecoration: "underline" }}
+          >
+            NIEER
+          </a>
+          {", "}
+          <a
+            href="https://research.collegeboard.org/trends/college-pricing"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#3987e5", textDecoration: "underline" }}
+          >
+            College Board
+          </a>
+          {"/CBO, "}
+          <a
+            href="https://www.fhwa.dot.gov/policy/2026cpr/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#3987e5", textDecoration: "underline" }}
+          >
+            FHWA
+          </a>
+          {", "}
+          <a
+            href="https://www.va.gov/budget/docs/summary/fy2026VAbudgetInBrief.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#3987e5", textDecoration: "underline" }}
+          >
+            VA budget
+          </a>
+          {", "}
+          <a
+            href="https://officeofbudget.od.nih.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#3987e5", textDecoration: "underline" }}
+          >
+            NIH budget
+          </a>
+          .
         </p>
 
         <OpportunityCost trackerTotal={trackerTotal} />
@@ -553,11 +825,83 @@ export default function CounterfactualTab({ trackerTotal }) {
           lineHeight: 1.7,
         }}
       >
-        <strong style={{ color: "#4a4a4a" }}>Methodology:</strong> Deficit projections use CBO's January 2025 extended
-        baseline as the pre-OBBBA counterfactual and CBO's September 2026 updated projection as the enacted path.
-        Household figures are from CBO distributional analysis, Tax Policy Center microsimulation, and program
-        enrollment data. Opportunity cost uses publicly reported annual program costs; bars scale to 100 years.
-        All figures are rounded for readability; see primary sources for precision.
+        <strong style={{ color: "#4a4a4a" }}>Methodology:</strong> Deficit projections use{" "}
+        <a
+          href="https://www.cbo.gov/publication/60583"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#3987e5", fontSize: "inherit", textDecoration: "underline" }}
+        >
+          Congressional Budget Office
+        </a>
+        {" "}January 2025 extended baseline as the pre-OBBBA counterfactual and CBO's September 2026
+        updated projection as the enacted path. Household figures are from CBO distributional
+        analysis,{" "}
+        <a
+          href="https://www.taxpolicycenter.org/publications/distributional-analysis-tax-provisions-one-big-beautiful-bill"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#3987e5", fontSize: "inherit", textDecoration: "underline" }}
+        >
+          Tax Policy Center
+        </a>{" "}
+        microsimulation, and program enrollment data. Opportunity cost uses publicly reported annual
+        program costs from{" "}
+        <a
+          href="https://nieer.org/state-preschool-yearbooks"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#3987e5", fontSize: "inherit", textDecoration: "underline" }}
+        >
+          NIEER
+        </a>
+        {", "}
+        <a
+          href="https://frac.org/research/resource-library/snap-cuts-impact-report-2026"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#3987e5", fontSize: "inherit", textDecoration: "underline" }}
+        >
+          Food Research and Action Center
+        </a>
+        {", "}
+        <a
+          href="https://research.collegeboard.org/trends/college-pricing"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#3987e5", fontSize: "inherit", textDecoration: "underline" }}
+        >
+          College Board
+        </a>
+        {", "}
+        <a
+          href="https://www.fhwa.dot.gov/policy/2026cpr/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#3987e5", fontSize: "inherit", textDecoration: "underline" }}
+        >
+          FHWA
+        </a>
+        {", "}
+        <a
+          href="https://www.va.gov/budget/docs/summary/fy2026VAbudgetInBrief.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#3987e5", fontSize: "inherit", textDecoration: "underline" }}
+        >
+          VA budget
+        </a>
+        {", and "}
+        <a
+          href="https://officeofbudget.od.nih.gov/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#3987e5", fontSize: "inherit", textDecoration: "underline" }}
+        >
+          NIH budget
+        </a>
+        ; bars scale to 100 years. All figures are rounded for readability; see primary sources for
+        precision.
       </div>
     </div>
   );
