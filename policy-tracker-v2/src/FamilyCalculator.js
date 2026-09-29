@@ -176,9 +176,9 @@ const US_STATES = [
 
 function SeverityBadge({ severity }) {
   const styles = {
-    high: { background: "#2a0a0a", color: "#e05555", border: "1px solid #5a1a1a" },
-    moderate: { background: "#1a1500", color: "#c98500", border: "1px solid #4a3800" },
-    low: { background: "#0a1a0a", color: "#5dca5d", border: "1px solid #1a4a1a" },
+    high: { background: "#fff0f0", color: "#b02020", border: "1px solid #f0c0c0" },
+    moderate: { background: "#fffbeb", color: "#a06800", border: "1px solid #f0d080" },
+    low: { background: "#f0faf0", color: "#1a6e1a", border: "1px solid #b0dab0" },
   };
   const labels = { high: "HIGH RISK", moderate: "MODERATE RISK", low: "NOT AFFECTED" };
   return (
@@ -203,19 +203,19 @@ function CompareRow({ label, before, after, highlight }) {
       gridTemplateColumns: "1fr 1fr",
       gap: 12,
       padding: "10px 0",
-      borderBottom: "1px solid #1e1e1c",
+      borderBottom: "1px solid #eeeae4",
     }}>
       <div>
-        <div style={{ color: "#898781", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 4 }}>
+        <div style={{ color: "#6b6b6b", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 4 }}>
           Before OBBBA
         </div>
-        <div style={{ color: "#9e9c96", fontSize: 13 }}>{before}</div>
+        <div style={{ color: "#4a4a4a", fontSize: 13 }}>{before}</div>
       </div>
       <div>
-        <div style={{ color: "#898781", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 4 }}>
+        <div style={{ color: "#6b6b6b", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 4 }}>
           After OBBBA
         </div>
-        <div style={{ color: highlight === "bad" ? "#e05555" : highlight === "good" ? "#5dca5d" : "#f0efec", fontSize: 13, fontWeight: highlight ? 600 : 400 }}>
+        <div style={{ color: highlight === "bad" ? "#c0392b" : highlight === "good" ? "#1a6e1a" : "#1a1a1a", fontSize: 13, fontWeight: highlight ? 600 : 400 }}>
           {after}
         </div>
       </div>
@@ -225,14 +225,14 @@ function CompareRow({ label, before, after, highlight }) {
 
 function ImpactCard({ title, icon, severity, children }) {
   const borderColors = {
-    high: "#5a1a1a",
-    moderate: "#4a3800",
-    low: "#1e2a1e",
+    high: "#f0c0c0",
+    moderate: "#f0d080",
+    low: "#c0e0c0",
   };
   return (
     <div style={{
-      background: "#111111",
-      border: `1px solid ${borderColors[severity] || "#2c2c2a"}`,
+      background: "#ffffff",
+      border: `1px solid ${borderColors[severity] || "#e0ddd8"}`,
       borderRadius: 8,
       padding: "16px 18px",
       marginBottom: 12,
@@ -240,7 +240,7 @@ function ImpactCard({ title, icon, severity, children }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ fontSize: 16 }}>{icon}</span>
-          <span style={{ color: "#f0efec", fontSize: 14, fontWeight: 700 }}>{title}</span>
+          <span style={{ color: "#1a1a1a", fontSize: 14, fontWeight: 700 }}>{title}</span>
         </div>
         <SeverityBadge severity={severity} />
       </div>
@@ -273,10 +273,10 @@ export default function FamilyCalculator() {
   const snap = state && income && householdSize ? snapRisk(state, income, householdSize) : null;
 
   const inputStyle = {
-    background: "#1a1a18",
-    border: "1px solid #2c2c2a",
+    background: "#ffffff",
+    border: "1px solid #d8d5d0",
     borderRadius: 5,
-    color: "#f0efec",
+    color: "#1a1a1a",
     fontSize: 13,
     padding: "9px 12px",
     width: "100%",
@@ -286,7 +286,7 @@ export default function FamilyCalculator() {
   };
 
   const labelStyle = {
-    color: "#9e9c96",
+    color: "#4a4a4a",
     fontSize: 11,
     fontWeight: 600,
     textTransform: "uppercase",
@@ -297,8 +297,8 @@ export default function FamilyCalculator() {
 
   return (
     <div style={{
-      background: "#0d0d0b",
-      border: "1px solid #2c2c2a",
+      background: "#f7f6f3",
+      border: "1px solid #e0ddd8",
       borderRadius: 10,
       padding: "24px",
       marginTop: 40,
@@ -310,10 +310,10 @@ export default function FamilyCalculator() {
         <div style={{ fontFamily: "monospace", fontSize: 11, letterSpacing: "0.1em", color: "#e05555", fontWeight: 700, marginBottom: 6 }}>
           PERSONALIZED IMPACT
         </div>
-        <h2 style={{ color: "#f0efec", fontSize: 18, fontWeight: 700, margin: "0 0 6px" }}>
+        <h2 style={{ color: "#1a1a1a", fontSize: 18, fontWeight: 700, margin: "0 0 6px" }}>
           How Does This Affect Your Family?
         </h2>
-        <p style={{ color: "#9e9c96", fontSize: 13, margin: 0, lineHeight: 1.6 }}>
+        <p style={{ color: "#4a4a4a", fontSize: 13, margin: 0, lineHeight: 1.6 }}>
           Enter your household details for a before-and-after analysis based on CBO distributional data,
           Tax Policy Center microsimulation, and USDA SNAP enrollment figures.
         </p>
@@ -354,8 +354,8 @@ export default function FamilyCalculator() {
             type="submit"
             disabled={!ready}
             style={{
-              background: ready ? "#c0392b" : "#2a2a28",
-              color: ready ? "#fff" : "#555",
+              background: ready ? "#c0392b" : "#e8e5e0",
+              color: ready ? "#fff" : "#999999",
               border: "none",
               borderRadius: 5,
               padding: "11px 28px",
@@ -374,8 +374,8 @@ export default function FamilyCalculator() {
         <div>
           {/* Profile summary bar */}
           <div style={{
-            background: "#1a1a18",
-            border: "1px solid #2c2c2a",
+            background: "#f5f4f1",
+            border: "1px solid #e0ddd8",
             borderRadius: 6,
             padding: "10px 14px",
             marginBottom: 20,
@@ -385,16 +385,16 @@ export default function FamilyCalculator() {
             flexWrap: "wrap",
             gap: 8,
           }}>
-            <span style={{ color: "#9e9c96", fontSize: 13 }}>
-              <strong style={{ color: "#f0efec" }}>{state}</strong> · {INCOME_TIERS.find(t => t.id === income)?.label} · {HOUSEHOLD_SIZES.find(h => h.id === householdSize)?.label}
+            <span style={{ color: "#4a4a4a", fontSize: 13 }}>
+              <strong style={{ color: "#1a1a1a" }}>{state}</strong> · {INCOME_TIERS.find(t => t.id === income)?.label} · {HOUSEHOLD_SIZES.find(h => h.id === householdSize)?.label}
             </span>
             <button
               onClick={handleReset}
               style={{
                 background: "transparent",
-                border: "1px solid #2c2c2a",
+                border: "1px solid #d8d5d0",
                 borderRadius: 4,
-                color: "#898781",
+                color: "#6b6b6b",
                 fontSize: 11,
                 fontFamily: "monospace",
                 fontWeight: 600,
@@ -423,16 +423,16 @@ export default function FamilyCalculator() {
               highlight={taxData.net < 0 ? "bad" : "good"}
             />
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 12 }}>
-              <div style={{ background: "#1a1a18", borderRadius: 5, padding: "10px 12px" }}>
-                <div style={{ color: "#5dca5d", fontSize: 12, fontWeight: 600, marginBottom: 3 }}>Tax cut benefit</div>
-                <div style={{ color: "#f0efec", fontSize: 15, fontWeight: 700 }}>{fmtDollar(taxData.taxCutBenefit, true)}/yr</div>
+              <div style={{ background: "#f5f4f1", borderRadius: 5, padding: "10px 12px" }}>
+                <div style={{ color: "#1a6e1a", fontSize: 12, fontWeight: 600, marginBottom: 3 }}>Tax cut benefit</div>
+                <div style={{ color: "#1a1a1a", fontSize: 15, fontWeight: 700 }}>{fmtDollar(taxData.taxCutBenefit, true)}/yr</div>
               </div>
-              <div style={{ background: "#1a1a18", borderRadius: 5, padding: "10px 12px" }}>
-                <div style={{ color: "#e05555", fontSize: 12, fontWeight: 600, marginBottom: 3 }}>Tariff cost (estimated)</div>
-                <div style={{ color: "#f0efec", fontSize: 15, fontWeight: 700 }}>{fmtDollar(-taxData.tariffCost, true)}/yr</div>
+              <div style={{ background: "#f5f4f1", borderRadius: 5, padding: "10px 12px" }}>
+                <div style={{ color: "#c0392b", fontSize: 12, fontWeight: 600, marginBottom: 3 }}>Tariff cost (estimated)</div>
+                <div style={{ color: "#1a1a1a", fontSize: 15, fontWeight: 700 }}>{fmtDollar(-taxData.tariffCost, true)}/yr</div>
               </div>
             </div>
-            <div style={{ color: "#898781", fontSize: 11, marginTop: 10 }}>
+            <div style={{ color: "#6b6b6b", fontSize: 11, marginTop: 10 }}>
               Source: Tax Policy Center 2026 distributional analysis; Peterson Institute and Yale Budget Lab tariff pass-through estimates. Individual results vary by deductions and filing status.
             </div>
           </ImpactCard>
@@ -440,10 +440,10 @@ export default function FamilyCalculator() {
           {/* ── Card 2: Medicaid ── */}
           <ImpactCard title="Medicaid coverage" icon="⚕" severity={medicaid.severity}>
             <CompareRow before={medicaid.before} after={medicaid.after} highlight={medicaid.atRisk ? "bad" : null} />
-            <div style={{ color: "#9e9c96", fontSize: 12, marginTop: 10, lineHeight: 1.6 }}>
+            <div style={{ color: "#4a4a4a", fontSize: 12, marginTop: 10, lineHeight: 1.6 }}>
               {medicaid.reason}
             </div>
-            <div style={{ color: "#898781", fontSize: 11, marginTop: 8 }}>
+            <div style={{ color: "#6b6b6b", fontSize: 11, marginTop: 8 }}>
               Source: CBO, KFF State Health Facts, OBBBA work requirement provisions (effective Jan 2027).
             </div>
           </ImpactCard>
@@ -453,22 +453,22 @@ export default function FamilyCalculator() {
             <CompareRow before={snap.before} after={snap.after} highlight={snap.atRisk ? "bad" : null} />
             {snap.atRisk && snap.annualBenefit > 0 && (
               <div style={{
-                background: "#1a1500",
-                border: "1px solid #4a3800",
+                background: "#fffbeb",
+                border: "1px solid #f0d080",
                 borderRadius: 5,
                 padding: "10px 12px",
                 marginTop: 10,
-                color: "#c98500",
+                color: "#a06800",
                 fontSize: 13,
                 fontWeight: 600,
               }}>
                 Estimated annual benefit at risk: {fmtDollar(snap.annualBenefit)}/yr (~{fmtDollar(snap.avgMonthlyBenefit)}/month)
               </div>
             )}
-            <div style={{ color: "#9e9c96", fontSize: 12, marginTop: 10, lineHeight: 1.6 }}>
+            <div style={{ color: "#4a4a4a", fontSize: 12, marginTop: 10, lineHeight: 1.6 }}>
               {snap.reason}
             </div>
-            <div style={{ color: "#898781", fontSize: 11, marginTop: 8 }}>
+            <div style={{ color: "#6b6b6b", fontSize: 11, marginTop: 8 }}>
               Source: USDA FNS benefit tables; Food Research and Action Center Aug 2026 report; OBBBA SNAP provisions.
             </div>
           </ImpactCard>
@@ -476,21 +476,21 @@ export default function FamilyCalculator() {
           {/* ── Card 4: Debt share ── */}
           <ImpactCard title="Your share of new national debt" icon="📈" severity="moderate">
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
-              <div style={{ background: "#1a1a18", borderRadius: 5, padding: "12px 14px" }}>
-                <div style={{ color: "#898781", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>Before OBBBA</div>
-                <div style={{ color: "#9e9c96", fontSize: 15, fontWeight: 700 }}>$0 added</div>
-                <div style={{ color: "#898781", fontSize: 11, marginTop: 4 }}>CBO Jan 2025 baseline trajectory</div>
+              <div style={{ background: "#f5f4f1", borderRadius: 5, padding: "12px 14px" }}>
+                <div style={{ color: "#6b6b6b", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>Before OBBBA</div>
+                <div style={{ color: "#4a4a4a", fontSize: 15, fontWeight: 700 }}>$0 added</div>
+                <div style={{ color: "#6b6b6b", fontSize: 11, marginTop: 4 }}>CBO Jan 2025 baseline trajectory</div>
               </div>
-              <div style={{ background: "#1a1a18", borderRadius: 5, padding: "12px 14px" }}>
-                <div style={{ color: "#898781", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>After OBBBA</div>
-                <div style={{ color: "#e05555", fontSize: 15, fontWeight: 700 }}>{fmtDollar(DEBT_PER_HOUSEHOLD)} added</div>
-                <div style={{ color: "#898781", fontSize: 11, marginTop: 4 }}>Per household, proportional share of $4.1T</div>
+              <div style={{ background: "#f5f4f1", borderRadius: 5, padding: "12px 14px" }}>
+                <div style={{ color: "#6b6b6b", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>After OBBBA</div>
+                <div style={{ color: "#c0392b", fontSize: 15, fontWeight: 700 }}>{fmtDollar(DEBT_PER_HOUSEHOLD)} added</div>
+                <div style={{ color: "#6b6b6b", fontSize: 11, marginTop: 4 }}>Per household, proportional share of $4.1T</div>
               </div>
             </div>
-            <div style={{ color: "#9e9c96", fontSize: 12, lineHeight: 1.6 }}>
+            <div style={{ color: "#4a4a4a", fontSize: 12, lineHeight: 1.6 }}>
               The $4.1T CBO-projected deficit increase divides to approximately {fmtDollar(DEBT_PER_HOUSEHOLD)} per US household. This represents additional debt service cost spread across the next 10 years, ultimately paid through future taxes or reduced public services. National debt-to-GDP is projected to rise from 162% to 190%+ over 35 years.
             </div>
-            <div style={{ color: "#898781", fontSize: 11, marginTop: 8 }}>
+            <div style={{ color: "#6b6b6b", fontSize: 11, marginTop: 8 }}>
               Source: CBO dynamic score Sept 2026; Census Bureau 2025 household count (130M households).
             </div>
           </ImpactCard>
@@ -498,34 +498,34 @@ export default function FamilyCalculator() {
           {/* Net summary bar */}
           {taxData && (
             <div style={{
-              background: taxData.net < 0 ? "#1a0808" : "#081a08",
-              border: `1px solid ${taxData.net < 0 ? "#5a1a1a" : "#1a4a1a"}`,
+              background: taxData.net < 0 ? "#fff5f5" : "#f0faf0",
+              border: `1px solid ${taxData.net < 0 ? "#f0c0c0" : "#b0e0b0"}`,
               borderRadius: 8,
               padding: "14px 18px",
               marginTop: 4,
             }}>
-              <div style={{ color: "#898781", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>
+              <div style={{ color: "#6b6b6b", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>
                 Direct net financial impact (tax cuts minus tariff cost)
               </div>
               <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-                <span style={{ fontSize: 22, fontWeight: 700, color: taxData.net < 0 ? "#e05555" : "#5dca5d", fontVariantNumeric: "tabular-nums" }}>
+                <span style={{ fontSize: 22, fontWeight: 700, color: taxData.net < 0 ? "#c0392b" : "#1a6e1a", fontVariantNumeric: "tabular-nums" }}>
                   {fmtDollar(taxData.net, true)}/year
                 </span>
-                <span style={{ color: "#9e9c96", fontSize: 13 }}>
+                <span style={{ color: "#4a4a4a", fontSize: 13 }}>
                   {taxData.net < 0
                     ? "on net, your household loses more to tariffs than it gains from the tax cut"
                     : "on net, your household gains more from the tax cut than it pays in tariff costs"}
                 </span>
               </div>
-              <div style={{ color: "#898781", fontSize: 11, marginTop: 8 }}>
+              <div style={{ color: "#6b6b6b", fontSize: 11, marginTop: 8 }}>
                 This is the direct cash flow estimate only. It does not include Medicaid or SNAP exposure, debt share, or longer-term effects on public services and interest rates.
               </div>
             </div>
           )}
 
           {/* Methodology */}
-          <div style={{ marginTop: 16, color: "#898781", fontSize: 11, lineHeight: 1.7 }}>
-            <strong style={{ color: "#9e9c96" }}>Methodology:</strong> Tax cut estimates from Tax Policy Center 2026 distributional microsimulation by income quintile. Tariff cost estimates from Peterson Institute and Yale Budget Lab household-level pass-through analysis. Medicaid eligibility based on CBO analysis and KFF state expansion status. SNAP benefit estimates use USDA FNS average benefit tables by household size. Figures are averages for the income and household-size group; individual situations vary. This tool is for informational purposes and does not constitute tax or legal advice.
+          <div style={{ marginTop: 16, color: "#6b6b6b", fontSize: 11, lineHeight: 1.7 }}>
+            <strong style={{ color: "#4a4a4a" }}>Methodology:</strong> Tax cut estimates from Tax Policy Center 2026 distributional microsimulation by income quintile. Tariff cost estimates from Peterson Institute and Yale Budget Lab household-level pass-through analysis. Medicaid eligibility based on CBO analysis and KFF state expansion status. SNAP benefit estimates use USDA FNS average benefit tables by household size. Figures are averages for the income and household-size group; individual situations vary. This tool is for informational purposes and does not constitute tax or legal advice.
           </div>
         </div>
       )}
