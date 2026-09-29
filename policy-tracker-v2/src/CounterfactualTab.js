@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
-// ─── Validated palette (dataviz skill, dark surface #0a0a0a) ─────────────────
-// Series 1 dark: #3987e5 (blue)   Series 2 dark: #d95926 (orange)
-// Light surface: #fcfcfb          Dark surface (chart bg): #111111
-// Text primary: #f0efec           Text secondary: #9e9c96   Muted: #898781
-// Gridline: #2c2c2a               Baseline: #383835
+// ─── Validated palette (dataviz skill, light surface) ────────────────────────
+// Series 1: #3987e5 (blue)   Series 2: #d95926 (orange)
+// Chart surface: #ffffff      Page background: #f7f6f3
+// Text primary: #1a1a1a       Text secondary: #4a4a4a   Muted: #6b6b6b
+// Gridline: #e8e5e0
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ── Data ─────────────────────────────────────────────────────────────────────
@@ -156,7 +156,7 @@ function DeficitChart() {
       const yOf = (v) => PAD.top + cH - ((v - minV) / (maxV - minV)) * cH;
 
       // Surface
-      ctx.fillStyle = "#111111";
+      ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, W, H);
 
       // Gridlines (hairline, 1px, recessive)
@@ -168,11 +168,11 @@ function DeficitChart() {
         ctx.beginPath();
         ctx.moveTo(PAD.left, y);
         ctx.lineTo(PAD.left + cW, y);
-        ctx.strokeStyle = "#2c2c2a";
+        ctx.strokeStyle = "#e8e5e0";
         ctx.lineWidth = 1;
         ctx.stroke();
 
-        ctx.fillStyle = "#898781";
+        ctx.fillStyle = "#6b6b6b";
         ctx.font = "11px system-ui,-apple-system,sans-serif";
         ctx.textAlign = "right";
         ctx.fillText(`$${v / 1000}T`, PAD.left - 8, y + 4);
@@ -180,7 +180,7 @@ function DeficitChart() {
 
       // X-axis labels
       DEFICIT_DATA.forEach((d, i) => {
-        ctx.fillStyle = "#898781";
+        ctx.fillStyle = "#6b6b6b";
         ctx.font = "11px system-ui,-apple-system,sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(d.year, xOf(i), H - 10);
@@ -209,7 +209,7 @@ function DeficitChart() {
         // Surface ring
         ctx.beginPath();
         ctx.arc(x, y, 6, 0, Math.PI * 2);
-        ctx.fillStyle = "#111111";
+        ctx.fillStyle = "#ffffff";
         ctx.fill();
         // Marker
         ctx.beginPath();
@@ -228,10 +228,10 @@ function DeficitChart() {
 
       ctx.font = "bold 11px system-ui,-apple-system,sans-serif";
       ctx.textAlign = "left";
-      ctx.fillStyle = "#f0efec";
+      ctx.fillStyle = "#1a1a1a";
       ctx.fillText(fmtB(DEFICIT_DATA[lastIdx].actual), xOf(lastIdx) + 8, aLabelY);
 
-      ctx.fillStyle = "#9e9c96";
+      ctx.fillStyle = "#6b6b6b";
       ctx.fillText(fmtB(DEFICIT_DATA[lastIdx].baseline), xOf(lastIdx) + 8, bLabelY);
     }
 
@@ -275,30 +275,30 @@ function DeficitChart() {
             position: "absolute",
             left: Math.min(tooltip.xPx + 12, tooltip.rect.width - 160),
             top: 24,
-            background: "#1e1e1c",
-            border: "1px solid #2c2c2a",
+            background: "#ffffff",
+            border: "1px solid #e0ddd8",
             borderRadius: 6,
             padding: "8px 12px",
             pointerEvents: "none",
             minWidth: 150,
           }}
         >
-          <div style={{ color: "#9e9c96", fontSize: 11, marginBottom: 6 }}>
+          <div style={{ color: "#6b6b6b", fontSize: 11, marginBottom: 6 }}>
             {tooltip.d.year}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
             <span style={{ width: 12, height: 2, background: "#d95926", display: "inline-block", borderRadius: 1 }} />
-            <span style={{ color: "#f0efec", fontSize: 13 }}>
+            <span style={{ color: "#1a1a1a", fontSize: 13 }}>
               OBBBA path: <strong>{fmtB(tooltip.d.actual)}</strong>
             </span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
             <span style={{ width: 12, height: 2, background: "#3987e5", display: "inline-block", borderRadius: 1 }} />
-            <span style={{ color: "#9e9c96", fontSize: 13 }}>
+            <span style={{ color: "#6b6b6b", fontSize: 13 }}>
               Baseline: {fmtB(tooltip.d.baseline)}
             </span>
           </div>
-          <div style={{ color: "#d95926", fontSize: 12, marginTop: 4, borderTop: "1px solid #2c2c2a", paddingTop: 4 }}>
+          <div style={{ color: "#d95926", fontSize: 12, marginTop: 4, borderTop: "1px solid #e8e5e0", paddingTop: 4 }}>
             +{fmtB(tooltip.d.actual - tooltip.d.baseline)} added by OBBBA
           </div>
         </div>
@@ -328,7 +328,7 @@ function ChartLegend() {
               flexShrink: 0,
             }}
           />
-          <span style={{ color: "#9e9c96", fontSize: 12 }}>{label}</span>
+          <span style={{ color: "#4a4a4a", fontSize: 12 }}>{label}</span>
         </div>
       ))}
     </div>
@@ -341,8 +341,8 @@ function HouseholdTile({ tile }) {
   return (
     <div
       style={{
-        background: "#111111",
-        border: "1px solid #2c2c2a",
+        background: "#ffffff",
+        border: "1px solid #e0ddd8",
         borderRadius: 8,
         padding: "16px 18px",
         display: "flex",
@@ -352,30 +352,30 @@ function HouseholdTile({ tile }) {
     >
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
         <span style={{ fontSize: 18 }}>{tile.icon}</span>
-        <span style={{ color: "#9e9c96", fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+        <span style={{ color: "#6b6b6b", fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
           {tile.label}
         </span>
       </div>
 
       {/* Actual (the OBBBA-enacted reality) */}
       <div>
-        <div style={{ color: "#898781", fontSize: 11, marginBottom: 3 }}>Reality (OBBBA enacted)</div>
+        <div style={{ color: "#6b6b6b", fontSize: 11, marginBottom: 3 }}>Reality (OBBBA enacted)</div>
         <div style={{ color: "#d95926", fontSize: 14, fontWeight: 600 }}>{tile.actual}</div>
       </div>
 
       {/* Counterfactual */}
       <div>
-        <div style={{ color: "#898781", fontSize: 11, marginBottom: 3 }}>What could have been</div>
+        <div style={{ color: "#6b6b6b", fontSize: 11, marginBottom: 3 }}>What could have been</div>
         <div style={{ color: "#3987e5", fontSize: 14, fontWeight: 600 }}>{tile.counterfactual}</div>
       </div>
 
       {/* Delta */}
       <div
         style={{
-          background: "#1a1a18",
+          background: "#f5f4f1",
           borderRadius: 4,
           padding: "6px 10px",
-          color: "#f0efec",
+          color: "#1a1a1a",
           fontSize: 12,
         }}
       >
@@ -392,8 +392,8 @@ function OpportunityCost({ trackerTotal }) {
 
   return (
     <div>
-      <p style={{ color: "#9e9c96", fontSize: 13, margin: "0 0 16px" }}>
-        The tracker total of <strong style={{ color: "#f0efec" }}>{fmt(total)}</strong> could instead fund:
+      <p style={{ color: "#4a4a4a", fontSize: 13, margin: "0 0 16px" }}>
+        The tracker total of <strong style={{ color: "#1a1a1a" }}>{fmt(total)}</strong> could instead fund:
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {OPPORTUNITY_ITEMS.map((item) => {
@@ -411,20 +411,20 @@ function OpportunityCost({ trackerTotal }) {
             <div
               key={item.id}
               style={{
-                background: "#111111",
-                border: "1px solid #2c2c2a",
+                background: "#ffffff",
+                border: "1px solid #e0ddd8",
                 borderRadius: 6,
                 padding: "12px 14px",
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
-                <span style={{ color: "#9e9c96", fontSize: 13 }}>{item.label}</span>
-                <span style={{ color: "#f0efec", fontSize: 15, fontWeight: 700, fontVariantNumeric: "tabular-nums", flexShrink: 0, marginLeft: 12 }}>
+                <span style={{ color: "#4a4a4a", fontSize: 13 }}>{item.label}</span>
+                <span style={{ color: "#1a1a1a", fontSize: 15, fontWeight: 700, fontVariantNumeric: "tabular-nums", flexShrink: 0, marginLeft: 12 }}>
                   {display}
                 </span>
               </div>
               {/* Bar (sequential blue ramp, capped at 100 units = 100%) */}
-              <div style={{ height: 4, background: "#2c2c2a", borderRadius: 2, overflow: "hidden" }}>
+              <div style={{ height: 4, background: "#e8e5e0", borderRadius: 2, overflow: "hidden" }}>
                 <div
                   style={{
                     height: "100%",
@@ -435,7 +435,7 @@ function OpportunityCost({ trackerTotal }) {
                   }}
                 />
               </div>
-              <div style={{ color: "#898781", fontSize: 11, marginTop: 5 }}>
+              <div style={{ color: "#6b6b6b", fontSize: 11, marginTop: 5 }}>
                 Annual cost: {fmt(item.annualCost)}/yr
               </div>
             </div>
@@ -460,7 +460,7 @@ export default function CounterfactualTab({ trackerTotal }) {
     >
       {/* Intro */}
       <div style={{ marginBottom: 32 }}>
-        <p style={{ color: "#9e9c96", fontSize: 14, lineHeight: 1.6, margin: 0 }}>
+        <p style={{ color: "#4a4a4a", fontSize: 14, lineHeight: 1.6, margin: 0 }}>
           The fiscal and human costs tracked on this site reflect choices that were made. Below is
           what the numbers looked like before those choices, and what the same dollars could
           alternatively fund. All figures are sourced from CBO, federal agencies, and peer-reviewed
@@ -470,17 +470,17 @@ export default function CounterfactualTab({ trackerTotal }) {
 
       {/* Section 1: Deficit trajectory */}
       <section style={{ marginBottom: 40 }}>
-        <h2 style={{ color: "#f0efec", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
+        <h2 style={{ color: "#1a1a1a", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
           Federal deficit trajectory, FY2025–2034
         </h2>
-        <p style={{ color: "#898781", fontSize: 12, margin: "0 0 16px" }}>
+        <p style={{ color: "#6b6b6b", fontSize: 12, margin: "0 0 16px" }}>
           Annual deficit in billions. Source: Congressional Budget Office (Jan 2025 baseline; Sept 2026 updated projection).
         </p>
 
         <div
           style={{
-            background: "#111111",
-            border: "1px solid #2c2c2a",
+            background: "#ffffff",
+            border: "1px solid #e0ddd8",
             borderRadius: 8,
             padding: "20px 16px 12px",
           }}
@@ -492,8 +492,8 @@ export default function CounterfactualTab({ trackerTotal }) {
         <div
           style={{
             marginTop: 12,
-            background: "#1a1210",
-            border: "1px solid #3d2010",
+            background: "#fff8f0",
+            border: "1px solid #f0c890",
             borderRadius: 6,
             padding: "10px 14px",
           }}
@@ -501,7 +501,7 @@ export default function CounterfactualTab({ trackerTotal }) {
           <span style={{ color: "#d95926", fontWeight: 600, fontSize: 13 }}>
             Total added to deficit by OBBBA over 10 years:
           </span>{" "}
-          <span style={{ color: "#f0efec", fontSize: 13 }}>
+          <span style={{ color: "#1a1a1a", fontSize: 13 }}>
             $4.1T (CBO dynamic score, Sept 2026). National debt-to-GDP projected to rise from 162%
             to 190%+ over 35 years.
           </span>
@@ -510,10 +510,10 @@ export default function CounterfactualTab({ trackerTotal }) {
 
       {/* Section 2: Household impact */}
       <section style={{ marginBottom: 40 }}>
-        <h2 style={{ color: "#f0efec", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
+        <h2 style={{ color: "#1a1a1a", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
           Household impact: reality vs what could have been
         </h2>
-        <p style={{ color: "#898781", fontSize: 12, margin: "0 0 16px" }}>
+        <p style={{ color: "#6b6b6b", fontSize: 12, margin: "0 0 16px" }}>
           Per median US household. Sources: CBO, Food Research and Action Center, Tax Policy Center, Urban Institute.
         </p>
 
@@ -532,10 +532,10 @@ export default function CounterfactualTab({ trackerTotal }) {
 
       {/* Section 3: Opportunity cost */}
       <section>
-        <h2 style={{ color: "#f0efec", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
+        <h2 style={{ color: "#1a1a1a", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
           Opportunity cost
         </h2>
-        <p style={{ color: "#898781", fontSize: 12, margin: "0 0 16px" }}>
+        <p style={{ color: "#6b6b6b", fontSize: 12, margin: "0 0 16px" }}>
           Based on live tracker total. Annual program cost sources: NIEER, College Board/CBO, FHWA, VA budget, NIH budget.
         </p>
 
@@ -546,14 +546,14 @@ export default function CounterfactualTab({ trackerTotal }) {
       <div
         style={{
           marginTop: 32,
-          borderTop: "1px solid #2c2c2a",
+          borderTop: "1px solid #e0ddd8",
           paddingTop: 16,
-          color: "#898781",
+          color: "#6b6b6b",
           fontSize: 11,
           lineHeight: 1.7,
         }}
       >
-        <strong style={{ color: "#9e9c96" }}>Methodology:</strong> Deficit projections use CBO's January 2025 extended
+        <strong style={{ color: "#4a4a4a" }}>Methodology:</strong> Deficit projections use CBO's January 2025 extended
         baseline as the pre-OBBBA counterfactual and CBO's September 2026 updated projection as the enacted path.
         Household figures are from CBO distributional analysis, Tax Policy Center microsimulation, and program
         enrollment data. Opportunity cost uses publicly reported annual program costs; bars scale to 100 years.
