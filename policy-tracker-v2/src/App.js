@@ -791,7 +791,7 @@ function BriefsPage() {
     label: "May 2026",
     tag: "Tax and Fiscal Policy",
     title: "A U.S. Tax and Fiscal Policy Framework for the 21st Century",
-    authors: "B.M. Wolford, Uncommon Gathering Group",
+    authors: "Uncommon Gathering Group",
     summary: "A comprehensive framework for restoring U.S. fiscal sustainability while expanding investment in high-return public goods. The brief diagnoses the structural gap between federal revenues and outlays, proposes a balanced package of corporate, individual, and wealth tax reforms alongside targeted spending accountability measures, and models distributional outcomes across income quintiles. Central projection: $4.2 to $5.7 trillion in net new revenue over 10 years, with a return to primary surplus by year 8 to 10.",
     sections: [
       {
@@ -898,7 +898,14 @@ function BriefsPage() {
                 Request the full brief
               </h3>
               <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.inkLight, lineHeight: 1.75, maxWidth: "560px", marginBottom: "0" }}>
-                The full three-part series is available upon request. Use the contact form on the About page to reach us, or reach out directly through Uncommon Gathering Group.
+                The full three-part series is available upon request.{" "}
+                <button
+                  onClick={() => { window.location.hash = "about"; }}
+                  style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.ink, background: "transparent", border: "none", padding: 0, cursor: "pointer", textDecoration: "underline", textUnderlineOffset: "3px" }}
+                >
+                  Contact us
+                </button>
+                {" "}to request a copy.
               </p>
             </div>
           </div>
