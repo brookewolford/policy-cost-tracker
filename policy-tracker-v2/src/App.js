@@ -181,7 +181,7 @@ function isStale(lastVerified) {
 }
 
 function buildShareText(total) {
-  return `The real cost of Trump policy: ${fmt(total)} in taxpayer exposure and counting. Live tracker by Uncommon Gathering Group:`;
+  return `The real cost of current policy: ${fmt(total)} in taxpayer exposure and counting. Live tracker by Uncommon Gathering Group:`;
 }
 
 function exportImage(total, allCats, allAmounts) {
@@ -201,7 +201,7 @@ function exportImage(total, allCats, allAmounts) {
   ctx.fillStyle = C.ink;
   ctx.font = "700 26px Georgia, serif";
   ctx.letterSpacing = "0px";
-  ctx.fillText("The Real Cost of Trump Policy", 36, 72);
+  ctx.fillText("The Real Cost of Current Policy", 36, 72);
   ctx.fillStyle = C.inkMid;
   ctx.font = "14px Georgia, serif";
   ctx.fillText("Authorized, allocated & projected taxpayer exposure · September 2026", 36, 96);
@@ -661,12 +661,19 @@ function AboutPage() {
     e.preventDefault();
     setStatus("sending");
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          access_key: "28631f53-f9bf-47d3-b8bc-3d16c449c2e6",
+          name: form.name,
+          email: form.email,
+          subject: form.subject ? `[UG Contact] ${form.subject}` : `[UG Contact] Message from ${form.name}`,
+          message: form.message,
+        }),
       });
-      if (res.ok) {
+      const data = await res.json();
+      if (data.success) {
         setStatus("sent");
       } else {
         setStatus("error");
@@ -864,7 +871,7 @@ function TrackerPage({ elapsed, treasuryData, treasuryStatus, fetchTreasury, tre
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "16px" }}>
             <div>
               <h1 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "28px", fontWeight: 400, color: C.ink, margin: "0 0 6px", letterSpacing: "-0.5px", lineHeight: 1.2 }}>
-                The Real Cost of Trump Policy
+                The Real Cost of Current Policy
               </h1>
               <div style={{ fontSize: "13px", color: C.inkMid, fontFamily: "Georgia, serif", fontStyle: "italic", marginBottom: "12px" }}>
                 Authorized, allocated &amp; projected taxpayer exposure · Updated September 2026
