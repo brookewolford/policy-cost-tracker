@@ -523,7 +523,7 @@ function HomePage({ setPage, total, liveRate }) {
           maxWidth: "600px",
           margin: "0 0 48px",
         }}>
-          Uncommon Gathering Group brings real business leaders into rigorous, evidence-based research on how policy shapes industry, communities, and everyday life. We translate complexity into clarity — for decision-makers and the public alike.
+          Uncommon Gathering Group brings business leaders into research on how policy shapes industry, communities, and everyday life. We translate complexity into something decision-makers and the public can actually use.
         </p>
         <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
           <button
@@ -650,6 +650,46 @@ function HomePage({ setPage, total, liveRate }) {
 
 // ── About page ────────────────────────────────────────────────────
 function AboutPage() {
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [status, setStatus] = useState(null); // null | "sending" | "sent" | "error"
+
+  function handleChange(e) {
+    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const { name, email, subject, message } = form;
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    const mailto = `mailto:brookewolford@gmail.com?subject=${encodeURIComponent(subject || "Inquiry from UG site")}&body=${body}`;
+    window.location.href = mailto;
+    setStatus("sent");
+  }
+
+  const inputStyle = {
+    width: "100%",
+    padding: "11px 14px",
+    border: `1px solid ${C.ruleLight}`,
+    borderRadius: "2px",
+    fontFamily: "Georgia, 'Times New Roman', serif",
+    fontSize: "15px",
+    color: C.ink,
+    background: C.bgCard,
+    outline: "none",
+    boxSizing: "border-box",
+  };
+
+  const labelStyle = {
+    display: "block",
+    fontFamily: "'Instrument Sans', system-ui, sans-serif",
+    fontSize: "11px",
+    letterSpacing: "0.12em",
+    color: C.inkLight,
+    textTransform: "uppercase",
+    marginBottom: "7px",
+    fontWeight: 600,
+  };
+
   return (
     <div style={{ maxWidth: "720px", margin: "0 auto", padding: "80px 28px 120px", fontFamily: "Georgia, 'Times New Roman', serif" }}>
       <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.18em", color: C.inkLight, textTransform: "uppercase", marginBottom: "24px" }}>
@@ -665,24 +705,103 @@ function AboutPage() {
           Uncommon Gathering Group was built on a simple premise: the people closest to the effects of policy are rarely in the room where it is analyzed. Business leaders, operators, and practitioners hold knowledge that academic and government researchers often lack. We bring them in.
         </p>
         <p>
-          Our research model is collaborative. We convene working groups of industry leaders around specific policy questions, combine their operational expertise with primary government data, and produce analysis that reflects how decisions actually play out in the field.
+          Our research model is collaborative. We convene working groups of industry leaders around specific policy questions, combine their operational expertise with primary government data, and produce findings that reflect how decisions actually play out in practice.
         </p>
         <p>
-          We are nonpartisan in method and honest about the findings. When policy is costly, we say so and show our work. When it is effective, we say that too. Our policy cost tracker pulls directly from the US Treasury's public fiscal data API and the Congressional Budget Office — no interpretation required for the raw figures.
+          We are nonpartisan in method and honest about the findings. When policy is costly, we say so and show our work. When it is effective, we say that too. Our policy cost tracker pulls directly from the US Treasury's public fiscal data API and the Congressional Budget Office, with no interpretation required for the raw figures.
         </p>
         <p>
-          The organization is led by practitioners with deep backgrounds in finance, housing, healthcare, and public-sector economics. We believe rigor and accessibility are not in conflict: good analysis should reach everyone it affects.
+          The organization is led by practitioners with backgrounds in finance, housing, healthcare, and public-sector economics. Rigor and accessibility are not in conflict: good analysis should reach everyone it affects.
         </p>
       </div>
 
       <div style={{ marginTop: "64px", paddingTop: "40px", borderTop: `1px solid ${C.ruleLight}` }}>
-        <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.18em", color: C.inkLight, textTransform: "uppercase", marginBottom: "20px" }}>
+        <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.18em", color: C.inkLight, textTransform: "uppercase", marginBottom: "32px" }}>
           Contact
         </p>
-        <p style={{ fontSize: "16px", color: C.inkMid, lineHeight: 1.8, margin: 0 }}>
-          For research inquiries, partnership opportunities, or media requests, reach us at{" "}
-          <span style={{ color: C.ink, fontWeight: 400 }}>info@uncommongatheringgroup.com</span>
-        </p>
+
+        {status === "sent" ? (
+          <div style={{ padding: "28px 24px", border: `1px solid ${C.ruleLight}`, borderLeft: `4px solid ${C.green}`, borderRadius: "3px", background: C.bgCard }}>
+            <p style={{ fontSize: "16px", color: C.inkMid, margin: 0, lineHeight: 1.7 }}>
+              Your mail client should have opened with your message ready to send. If it didn't, you can reach us directly at{" "}
+              <span style={{ color: C.ink }}>brookewolford@gmail.com</span>.
+            </p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+              <div>
+                <label style={labelStyle}>Name</label>
+                <input
+                  name="name"
+                  type="text"
+                  required
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Your name"
+                  style={inputStyle}
+                />
+              </div>
+              <div>
+                <label style={labelStyle}>Email</label>
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="your@email.com"
+                  style={inputStyle}
+                />
+              </div>
+            </div>
+            <div>
+              <label style={labelStyle}>Subject</label>
+              <input
+                name="subject"
+                type="text"
+                value={form.subject}
+                onChange={handleChange}
+                placeholder="Research inquiry, partnership, media request..."
+                style={inputStyle}
+              />
+            </div>
+            <div>
+              <label style={labelStyle}>Message</label>
+              <textarea
+                name="message"
+                required
+                value={form.message}
+                onChange={handleChange}
+                rows={6}
+                placeholder="Tell us what you're working on or what you'd like to discuss."
+                style={{ ...inputStyle, resize: "vertical", lineHeight: 1.7 }}
+              />
+            </div>
+            <div>
+              <button
+                type="submit"
+                style={{
+                  background: C.ink,
+                  color: C.bg,
+                  border: "none",
+                  padding: "14px 32px",
+                  fontFamily: "'Instrument Sans', system-ui, sans-serif",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  cursor: "pointer",
+                  borderRadius: "2px",
+                }}
+              >
+                SEND MESSAGE
+              </button>
+              <p style={{ fontSize: "12px", color: C.inkLight, marginTop: "12px", fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
+                This will open your default mail client with your message ready to send.
+              </p>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
