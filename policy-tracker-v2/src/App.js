@@ -460,6 +460,8 @@ function SiteHeader({ page, setPage }) {
           {[
             ["home", "Home"],
             ["tracker", "Policy Tracker"],
+            ["briefs", "Briefs"],
+            ["methodology", "Methodology"],
             ["about", "About"],
           ].map(([id, label]) => (
             <button
@@ -604,6 +606,10 @@ function HomePage({ setPage, total, liveRate }) {
         </div>
       </section>
 
+      {/* Newsletter signup */}
+      <div style={{ borderTop: `1px solid ${C.ruleLight}` }} />
+      <NewsletterSection />
+
       {/* CTA strip */}
       <div style={{ background: C.ink, padding: "56px 28px" }}>
         <div style={{ maxWidth: "780px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "24px" }}>
@@ -644,6 +650,267 @@ function HomePage({ setPage, total, liveRate }) {
           uncommongatheringgroup.com
         </div>
       </footer>
+    </div>
+  );
+}
+
+// ── Newsletter section ─────────────────────────────────────────────
+function NewsletterSection() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState(null);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: "28631f53-f9bf-47d3-b8bc-3d16c449c2e6",
+          subject: "Newsletter Signup",
+          email,
+          message: `New newsletter signup: ${email}`,
+          from_name: "Policy Cost Tracker Newsletter",
+          botcheck: "",
+        }),
+      });
+      const data = await res.json();
+      setStatus(data.success ? "sent" : "error");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <section style={{ maxWidth: "1020px", margin: "0 auto", padding: "64px 28px" }}>
+      <div style={{ maxWidth: "560px" }}>
+        <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", color: C.inkLight, marginBottom: "16px" }}>
+          Stay Informed
+        </p>
+        <h2 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "clamp(24px,4vw,32px)", fontWeight: 400, color: C.ink, marginBottom: "16px", lineHeight: 1.25 }}>
+          Policy updates, delivered
+        </h2>
+        <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "16px", color: C.inkLight, lineHeight: 1.7, marginBottom: "32px" }}>
+          New research briefs, tracker updates, and analysis from Uncommon Gathering Group — no more than twice a month.
+        </p>
+        {status === "sent" ? (
+          <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "14px", color: "#2d6a4f" }}>
+            You're on the list. Thank you.
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit} style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="your@email.com"
+              required
+              style={{ flex: "1 1 220px", padding: "12px 16px", fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "14px", border: `1px solid ${C.rule}`, background: C.warm, color: C.ink, outline: "none", borderRadius: "2px" }}
+            />
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              style={{ padding: "12px 24px", background: C.ink, color: C.warm, fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", letterSpacing: "0.08em", textTransform: "uppercase", border: "none", cursor: "pointer", borderRadius: "2px", opacity: status === "sending" ? 0.6 : 1 }}
+            >
+              {status === "sending" ? "Sending..." : "Subscribe"}
+            </button>
+            {status === "error" && (
+              <p style={{ width: "100%", fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", color: "#c0392b", margin: 0 }}>
+                Something went wrong. Please try again.
+              </p>
+            )}
+          </form>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── Methodology page ───────────────────────────────────────────────
+function MethodologyPage() {
+  return (
+    <div style={{ maxWidth: "1020px", margin: "0 auto", padding: "64px 28px 96px" }}>
+      <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", color: C.inkLight, marginBottom: "16px" }}>
+        How it works
+      </p>
+      <h1 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "clamp(28px,5vw,42px)", fontWeight: 400, color: C.ink, marginBottom: "48px", lineHeight: 1.2 }}>
+        Methodology
+      </h1>
+
+      {[
+        {
+          heading: "Live spending data",
+          body: `The tracker's running total pulls from the U.S. Treasury's Fiscal Data API, specifically the Monthly Treasury Statement (MTS) dataset. Each month, Treasury releases actual federal outlays by agency and account. We fetch the most recent full month on page load and derive a daily spending rate by dividing total outlays by the number of days elapsed in the fiscal year. That rate drives the animated counter on the home page and tracker.`,
+        },
+        {
+          heading: "Fiscal year baseline",
+          body: `The federal fiscal year runs October 1 through September 30. We use the Congressional Budget Office's annual baseline projections, updated each January and May, as the projected full-year outlay figure. The tracker compares live Treasury actuals against that CBO baseline to flag meaningful deviations as they accumulate across the fiscal year.`,
+        },
+        {
+          heading: "Policy cost estimates",
+          body: `Individual policy line items (tax cuts, spending programs, legislative packages) draw from CBO cost estimates, Joint Committee on Taxation (JCT) scorekeeping, and, where those are unavailable, OMB budget documents. All figures are 10-year budget window totals unless otherwise noted. We display the central estimate; where CBO provides a range, that range is shown in the detail view.`,
+        },
+        {
+          heading: "Rate calculation",
+          body: `The per-second spending rate shown on the tracker is computed as: (total fiscal-year-to-date outlays) / (days elapsed in fiscal year) / (86,400 seconds per day). This produces a smooth, continuous approximation rather than a step function tied to monthly releases. The figure updates each time the page loads; it does not stream from a live data feed.`,
+        },
+        {
+          heading: "What this tool is not",
+          body: `The tracker reflects gross federal outlays, not the deficit or net fiscal position. It does not separate mandatory from discretionary spending or account for intragovernmental transfers. Policy cost figures are estimates with real uncertainty ranges; they should be treated as informed approximations, not accounting ledger entries. Nothing here constitutes legal, financial, or investment advice.`,
+        },
+        {
+          heading: "Data freshness",
+          body: `Treasury MTS data typically lags by 3 to 5 weeks. CBO baseline updates publish in January and May. JCT scores are released alongside legislation. We review and update tracker data monthly; the "last updated" date on the tracker reflects the most recent manual review.`,
+        },
+        {
+          heading: "Sources",
+          body: `U.S. Treasury Fiscal Data API (fiscaldata.treasury.gov) · Congressional Budget Office (cbo.gov) · Joint Committee on Taxation (jct.gov) · Office of Management and Budget (whitehouse.gov/omb)`,
+        },
+      ].map(({ heading, body }) => (
+        <div key={heading} style={{ borderTop: `1px solid ${C.ruleLight}`, paddingTop: "36px", marginBottom: "36px" }}>
+          <h2 style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "15px", fontWeight: 600, color: C.ink, marginBottom: "14px", letterSpacing: "0.01em" }}>
+            {heading}
+          </h2>
+          <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "16px", color: C.inkLight, lineHeight: 1.75, maxWidth: "680px" }}>
+            {body}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Briefs page ────────────────────────────────────────────────────
+function BriefsPage() {
+  const [open, setOpen] = useState(null);
+
+  const brief = {
+    id: "us-fiscal-policy-framework",
+    label: "May 2026",
+    tag: "Tax and Fiscal Policy",
+    title: "A U.S. Tax and Fiscal Policy Framework for the 21st Century",
+    authors: "B.M. Wolford, Uncommon Gathering Group",
+    summary: "A comprehensive framework for restoring U.S. fiscal sustainability while expanding investment in high-return public goods. The brief diagnoses the structural gap between federal revenues and outlays, proposes a balanced package of corporate, individual, and wealth tax reforms alongside targeted spending accountability measures, and models distributional outcomes across income quintiles. Central projection: $4.2 to $5.7 trillion in net new revenue over 10 years, with a return to primary surplus by year 8 to 10.",
+    sections: [
+      {
+        title: "Key findings",
+        items: [
+          "The U.S. collects roughly 16 to 17% of GDP in federal revenue, compared to 24 to 28% among peer OECD nations, a structural gap of roughly $1.5 to $2T annually.",
+          "Corporate rate restoration to 28% (from the 2017-cut 21%) yields an estimated $1.0T over 10 years with minimal investment effects at current profit margins.",
+          "A 25% minimum tax on unrealized gains above $100M addresses the 'buy-borrow-die' strategy used by ultra-high-net-worth households to indefinitely defer capital gains.",
+          "A modest VAT at 5% on non-essential goods, with a full low-income rebate, could raise $2.5 to $3.5T over 10 years while remaining broadly progressive.",
+          "High-ROI federal investments (early childhood, IRS enforcement, housing vouchers, apprenticeships, R&D) show fiscal multipliers of $5 to $62 per dollar spent.",
+          "A Minnesota case study demonstrates that the framework's revenue and investment approach is replicable at the state level with documented outcomes.",
+        ],
+      },
+      {
+        title: "Distributional impact",
+        items: [
+          "Bottom quintile: net positive, primarily through expanded EITC, housing vouchers, and the VAT rebate mechanism.",
+          "Middle three quintiles: roughly neutral to modestly positive, with modest tax increases offset by expanded childcare, education, and health investments.",
+          "Top 1%: meaningful tax increase, primarily from the unrealized gains minimum tax and individual rate restoration on income above $400K.",
+          "Top 0.1%: largest absolute and relative increase, driven by wealth and estate provisions.",
+        ],
+      },
+      {
+        title: "Framework components",
+        items: [
+          "Corporate reform: 28% statutory rate, 15% global minimum (OECD Pillar Two alignment), elimination of fossil fuel subsidies.",
+          "Individual reform: restore 39.6% bracket on income above $400K, cap itemized deductions at 28%, expand EITC and child tax credit.",
+          "Wealth and estate: 25% minimum tax on unrealized gains above $100M, estate tax restoration to 2009 parameters.",
+          "VAT: 5% on non-essentials with a refundable low-income rebate equal to the average VAT burden on the bottom two quintiles.",
+          "Payroll: lift the Social Security taxable wage cap above $400K, extend solvency by approximately 75 years.",
+          "Spending accountability: zero-based review for defense procurement, mandatory outcome metrics for discretionary programs, a GAO-led 'high ROI' investment tier.",
+        ],
+      },
+      {
+        title: "Documents in this series",
+        items: [
+          "Summary Brief (4 pages): one-page summary table, fiscal projections, distributional analysis, and framework diagnosis. Contact us to request a copy.",
+          "Detailed Analysis (full report): 10-part analysis covering international comparisons, each revenue component, spending accountability, high-ROI investment catalog, Minnesota case study, and distributional modeling.",
+          "Implementation Supplement: transition design, phase-in timelines, failure scenarios and safeguards, alternative framework comparisons, and communications strategy for public engagement.",
+        ],
+      },
+    ],
+  };
+
+  return (
+    <div style={{ maxWidth: "1020px", margin: "0 auto", padding: "64px 28px 96px" }}>
+      <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", color: C.inkLight, marginBottom: "16px" }}>
+        Research
+      </p>
+      <h1 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "clamp(28px,5vw,42px)", fontWeight: 400, color: C.ink, marginBottom: "8px", lineHeight: 1.2 }}>
+        Policy Briefs
+      </h1>
+      <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "17px", color: C.inkLight, lineHeight: 1.7, marginBottom: "56px", maxWidth: "640px" }}>
+        Original research and analysis from Uncommon Gathering Group on fiscal policy, public investment, and government accountability.
+      </p>
+
+      {/* Brief card */}
+      <div style={{ borderTop: `2px solid ${C.ink}`, paddingTop: "32px" }}>
+        <div style={{ display: "flex", gap: "16px", marginBottom: "12px", flexWrap: "wrap", alignItems: "center" }}>
+          <span style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: C.inkLight }}>
+            {brief.label}
+          </span>
+          <span style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: C.inkLight, background: C.rule, padding: "2px 10px", borderRadius: "2px" }}>
+            {brief.tag}
+          </span>
+        </div>
+
+        <h2 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "clamp(20px,3.5vw,28px)", fontWeight: 400, color: C.ink, marginBottom: "10px", lineHeight: 1.3 }}>
+          {brief.title}
+        </h2>
+        <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", color: C.inkLight, marginBottom: "20px" }}>
+          {brief.authors}
+        </p>
+        <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "16px", color: C.inkLight, lineHeight: 1.75, marginBottom: "28px", maxWidth: "720px" }}>
+          {brief.summary}
+        </p>
+
+        <button
+          onClick={() => setOpen(open === brief.id ? null : brief.id)}
+          style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, background: "transparent", border: `1px solid ${C.ink}`, padding: "10px 20px", cursor: "pointer", borderRadius: "2px" }}
+        >
+          {open === brief.id ? "Hide detail" : "Read more"}
+        </button>
+
+        {open === brief.id && (
+          <div style={{ marginTop: "40px" }}>
+            {brief.sections.map(({ title, items }) => (
+              <div key={title} style={{ borderTop: `1px solid ${C.ruleLight}`, paddingTop: "28px", marginBottom: "32px" }}>
+                <h3 style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, marginBottom: "20px" }}>
+                  {title}
+                </h3>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {items.map((item, i) => (
+                    <li key={i} style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.inkLight, lineHeight: 1.75, paddingLeft: "16px", borderLeft: `2px solid ${C.rule}`, marginBottom: "14px", maxWidth: "680px" }}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+
+            <div style={{ borderTop: `1px solid ${C.ruleLight}`, paddingTop: "28px" }}>
+              <h3 style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, marginBottom: "14px" }}>
+                Request the full brief
+              </h3>
+              <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.inkLight, lineHeight: 1.75, maxWidth: "560px", marginBottom: "0" }}>
+                The full three-part series is available upon request. Use the contact form on the About page to reach us, or reach out directly through Uncommon Gathering Group.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* More coming */}
+      <div style={{ borderTop: `1px solid ${C.ruleLight}`, marginTop: "64px", paddingTop: "40px" }}>
+        <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", color: C.inkLight, letterSpacing: "0.04em" }}>
+          Additional briefs on housing policy, healthcare financing, and labor market structure are in progress.
+        </p>
+      </div>
     </div>
   );
 }
@@ -1035,7 +1302,7 @@ function TrackerPage({ elapsed, treasuryData, treasuryStatus, fetchTreasury, tre
 export default function App() {
   const getPageFromHash = () => {
     const h = window.location.hash.replace("#", "");
-    return ["home", "tracker", "about"].includes(h) ? h : "home";
+    return ["home", "tracker", "about", "methodology", "briefs"].includes(h) ? h : "home";
   };
   const [page, setPage] = useState(getPageFromHash);
   const startRef = useRef(Date.now());
@@ -1045,6 +1312,8 @@ export default function App() {
     setPage(p);
     window.scrollTo(0, 0);
   }, []);
+
+
 
   useEffect(() => {
     const onPop = (e) => {
@@ -1107,6 +1376,8 @@ export default function App() {
 
       {page === "home" && <HomePage setPage={navigateTo} total={total} liveRate={liveRate} />}
       {page === "about" && <AboutPage />}
+      {page === "methodology" && <MethodologyPage />}
+      {page === "briefs" && <BriefsPage setPage={navigateTo} />}
       {page === "tracker" && (
         <TrackerPage
           elapsed={elapsed}
