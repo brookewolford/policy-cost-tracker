@@ -657,13 +657,23 @@ function AboutPage() {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    const { name, email, subject, message } = form;
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-    const mailto = `mailto:brookewolford@gmail.com?subject=${encodeURIComponent(subject || "Inquiry from UG site")}&body=${body}`;
-    window.location.href = mailto;
-    setStatus("sent");
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setStatus("sent");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   }
 
   const inputStyle = {
@@ -723,12 +733,16 @@ function AboutPage() {
         {status === "sent" ? (
           <div style={{ padding: "28px 24px", border: `1px solid ${C.ruleLight}`, borderLeft: `4px solid ${C.green}`, borderRadius: "3px", background: C.bgCard }}>
             <p style={{ fontSize: "16px", color: C.inkMid, margin: 0, lineHeight: 1.7 }}>
-              Your mail client should have opened with your message ready to send. If it didn't, you can reach us directly at{" "}
-              <span style={{ color: C.ink }}>brookewolford@gmail.com</span>.
+              Message received. We'll be in touch shortly.
             </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            {status === "error" && (
+              <div style={{ padding: "14px 18px", border: `1px solid #e8b0b0`, borderLeft: `4px solid ${C.accent}`, borderRadius: "3px", background: "#fdf0f0", fontSize: "14px", color: C.accent, fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
+                Something went wrong. Please try again in a moment.
+              </div>
+            )}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
               <div>
                 <label style={labelStyle}>Name</label>
@@ -781,8 +795,9 @@ function AboutPage() {
             <div>
               <button
                 type="submit"
+                disabled={status === "sending"}
                 style={{
-                  background: C.ink,
+                  background: status === "sending" ? C.inkLight : C.ink,
                   color: C.bg,
                   border: "none",
                   padding: "14px 32px",
@@ -790,15 +805,13 @@ function AboutPage() {
                   fontSize: "13px",
                   fontWeight: 600,
                   letterSpacing: "0.08em",
-                  cursor: "pointer",
+                  cursor: status === "sending" ? "default" : "pointer",
                   borderRadius: "2px",
+                  transition: "background 0.2s",
                 }}
               >
-                SEND MESSAGE
+                {status === "sending" ? "SENDING..." : "SEND MESSAGE"}
               </button>
-              <p style={{ fontSize: "12px", color: C.inkLight, marginTop: "12px", fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
-                This will open your default mail client with your message ready to send.
-              </p>
             </div>
           </form>
         )}
