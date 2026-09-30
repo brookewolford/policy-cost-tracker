@@ -563,7 +563,7 @@ function exportResultCard(stateCode, incomeId, householdSizeId, taxData, medicai
   // Footer text
   ctx.fillStyle = "#6b6b6b";
   ctx.font = "11px system-ui,-apple-system,sans-serif";
-  ctx.fillText("policy-cost-tracker.vercel.app · B.M. Wolford / BMW Substack", 24, H - 22);
+  ctx.fillText("policy-cost-tracker.vercel.app · Uncommon Gathering Group", 24, H - 22);
 
   // Download
   const link = document.createElement("a");
