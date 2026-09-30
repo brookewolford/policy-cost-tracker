@@ -461,7 +461,7 @@ function SiteHeader({ page, setPage }) {
             ["home", "Home"],
             ["tracker", "Policy Tracker"],
             ["briefs", "Briefs"],
-            ["methodology", "Methodology"],
+            ["methodology", "Tracker Methodology"],
             ["about", "About"],
           ].map(([id, label]) => (
             <button
@@ -736,7 +736,7 @@ function MethodologyPage() {
         How it works
       </p>
       <h1 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "clamp(28px,5vw,42px)", fontWeight: 400, color: C.ink, marginBottom: "48px", lineHeight: 1.2 }}>
-        Methodology
+        Policy Tracker Methodology
       </h1>
 
       {[
