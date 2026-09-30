@@ -566,72 +566,6 @@ function HomePage({ setPage, total, liveRate }) {
       {/* Rule */}
       <div style={{ borderTop: `1px solid ${C.ruleLight}` }} />
 
-      {/* Live stat callout */}
-      <section style={{ maxWidth: "1020px", margin: "0 auto", padding: "64px 28px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1px", background: C.ruleLight, border: `1px solid ${C.ruleLight}`, borderRadius: "4px", overflow: "hidden" }}>
-          {[
-            {
-              label: "Total Taxpayer Exposure",
-              value: fmt(total),
-              sub: "Authorized + projected + Treasury live",
-              accent: true,
-            },
-            {
-              label: "Accruing Right Now",
-              value: `+${fmt(liveRate)}/sec`,
-              sub: "Combined live spending rate",
-              accent: false,
-            },
-            {
-              label: "Categories Tracked",
-              value: "9",
-              sub: "Treasury live data + CBO figures",
-              accent: false,
-            },
-            {
-              label: "Data Last Verified",
-              value: "Sept 2026",
-              sub: "All figures reviewed this month",
-              accent: false,
-            },
-          ].map(({ label, value, sub, accent }) => (
-            <div
-              key={label}
-              style={{
-                background: accent ? C.ink : C.bgCard,
-                padding: "32px 28px",
-              }}
-            >
-              <div style={{
-                fontFamily: "'Instrument Sans', system-ui, sans-serif",
-                fontSize: "11px",
-                letterSpacing: "0.14em",
-                color: accent ? "rgba(249,247,242,0.6)" : C.inkLight,
-                textTransform: "uppercase",
-                marginBottom: "12px",
-              }}>{label}</div>
-              <div style={{
-                fontFamily: "monospace",
-                fontSize: "28px",
-                fontWeight: 700,
-                color: accent ? C.bg : C.ink,
-                letterSpacing: "-0.5px",
-                marginBottom: "8px",
-              }}>{value}</div>
-              <div style={{
-                fontSize: "13px",
-                color: accent ? "rgba(249,247,242,0.5)" : C.inkLight,
-                fontFamily: "Georgia, serif",
-                fontStyle: "italic",
-              }}>{sub}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Rule */}
-      <div style={{ borderTop: `1px solid ${C.ruleLight}` }} />
-
       {/* Mission section */}
       <section style={{ maxWidth: "780px", margin: "0 auto", padding: "80px 28px" }}>
         <p style={{
@@ -960,8 +894,29 @@ function TrackerPage({ elapsed, treasuryData, treasuryStatus, fetchTreasury, tre
 
 // ── Root app ──────────────────────────────────────────────────────
 export default function App() {
-  const [page, setPage] = useState("home");
+  const getPageFromHash = () => {
+    const h = window.location.hash.replace("#", "");
+    return ["home", "tracker", "about"].includes(h) ? h : "home";
+  };
+  const [page, setPage] = useState(getPageFromHash);
   const startRef = useRef(Date.now());
+
+  const navigateTo = useCallback((p) => {
+    window.history.pushState({ page: p }, "", p === "home" ? "/" : `#${p}`);
+    setPage(p);
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const onPop = (e) => {
+      const p = e.state?.page || getPageFromHash();
+      setPage(p);
+    };
+    window.addEventListener("popstate", onPop);
+    // set initial history entry
+    window.history.replaceState({ page }, "", page === "home" ? "/" : `#${page}`);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
   const [elapsed, setElapsed] = useState(0);
   const [treasuryData, setTreasuryData] = useState(null);
   const [treasuryStatus, setTreasuryStatus] = useState("loading");
@@ -1009,9 +964,9 @@ export default function App() {
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet" />
 
-      <SiteHeader page={page} setPage={setPage} />
+      <SiteHeader page={page} setPage={navigateTo} />
 
-      {page === "home" && <HomePage setPage={setPage} total={total} liveRate={liveRate} />}
+      {page === "home" && <HomePage setPage={navigateTo} total={total} liveRate={liveRate} />}
       {page === "about" && <AboutPage />}
       {page === "tracker" && (
         <TrackerPage
