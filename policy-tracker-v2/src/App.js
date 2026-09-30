@@ -194,7 +194,7 @@ function exportImage(total, allCats, allAmounts) {
   ctx.fillStyle = "#c0392b";
   ctx.font = "700 11px monospace";
   ctx.letterSpacing = "3px";
-  ctx.fillText("B.M. WOLFORD / BMW SUBSTACK", 36, 38);
+  ctx.fillText("UNCOMMON GATHERING GROUP", 36, 38);
 
   // Title
   ctx.fillStyle = "#1a1a1a";
@@ -565,7 +565,7 @@ export default function App() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
             <div>
               <div style={{ fontFamily: "monospace", fontSize: "12px", letterSpacing: "3px", color: "#c0392b", marginBottom: "7px", fontWeight: 700 }}>
-                B.M. WOLFORD / BMW SUBSTACK
+                UNCOMMON GATHERING GROUP
               </div>
               <h1 style={{ fontFamily: "Georgia, serif", fontSize: "24px", fontWeight: 700, color: "#1a1a1a", margin: 0, lineHeight: 1.2 }}>
                 The Real Cost of Trump Policy
