@@ -171,7 +171,7 @@ function isStale(lastVerified) {
 
 // Share helpers
 function buildShareText(total) {
-  return `The real cost of Trump policy: ${fmt(total)} in taxpayer exposure and counting. Live tracker by @BMWolford:`;
+  return `The real cost of Trump policy: ${fmt(total)} in taxpayer exposure and counting. Live tracker by Uncommon Gathering Group:`;
 }
 
 // Export to image — draws a summary card on a hidden canvas and triggers download
@@ -775,7 +775,7 @@ export default function App() {
 
             {/* Footer */}
             <div style={{ marginTop: "32px", paddingTop: "18px", borderTop: "1px solid #e0ddd8", fontSize: "12px", color: "#9a9a9a", lineHeight: "2", textAlign: "center" }}>
-              Research and analysis by B.M. Wolford for BMW Substack<br />
+              Research and analysis by Uncommon Gathering Group<br />
               Treasury data: fiscaldata.treasury.gov (MTS Table 5, free public API, no key required)<br />
               Other sources: CBO · Tax Foundation · Brennan Center · National Immigration Forum · Pentagon Congressional Testimony · Just Security · Food Research and Action Center · AP · NPR · CBS News · CNN · ABC News<br />
               <span style={{ color: "#9a9a9a" }}>Treasury figures refresh automatically. CBO/projection figures last reviewed and verified September 2026.</span>
