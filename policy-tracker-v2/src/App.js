@@ -33,12 +33,12 @@ const STATIC_CATEGORIES = [
     baseAmount: 4_100_000_000_000,
     ratePerSecond: 13_004,
     color: "#8e44ad",
-    lastUpdated: "September 2026",
-    lastVerified: "September 2026",
-    source: "Congressional Budget Office dynamic score, Tax Foundation",
+    lastUpdated: "October 2026",
+    lastVerified: "October 2026",
+    source: "Congressional Budget Office dynamic score, Tax Foundation, CRFB",
     treasuryLive: false,
     resolved: false,
-    note: "CBO updated dynamic score: $4.1–4.7T deficit increase over 10 years (revised from original $3.4T static score). Top 1% receives avg $50,000/yr tax cut. Bottom 10% lose $1,600/yr. National debt-to-GDP projected to climb from 162% to 190%+ over 35 years. Tariff revenue is paid overwhelmingly by American consumers, not foreign governments: Peterson Institute and Yale Budget Lab estimate 85–90% of tariff costs pass through to US households as higher prices, with lower-income households bearing the highest proportional burden.",
+    note: "CBO updated dynamic score: $4.1–4.7T deficit increase over 10 years (revised from original $3.4T static score). CRFB projects 30-year cost exceeds $10T when compounding interest is included. Top 1% receives avg $50,000/yr tax cut. Bottom 10% lose $1,600/yr. National debt-to-GDP projected to climb from 162% to 190%+ over 35 years. Tariff revenue is paid overwhelmingly by American consumers, not foreign governments: Peterson Institute and Yale Budget Lab estimate 85–90% of tariff costs pass through to US households as higher prices, with lower-income households bearing the highest proportional burden.",
   },
   {
     id: "snap_medicaid_harm",
@@ -47,12 +47,12 @@ const STATIC_CATEGORIES = [
     baseAmount: 1_215_000_000_000,
     ratePerSecond: 3_852,
     color: "#27ae60",
-    lastUpdated: "September 2026",
-    lastVerified: "September 2026",
-    source: "CBO, Food Research and Action Center, Urban Institute",
+    lastUpdated: "October 2026",
+    lastVerified: "October 2026",
+    source: "CBO, Food Research and Action Center, Urban Institute, USNews, KUNC",
     treasuryLive: false,
     resolved: false,
-    note: "CBO confirmed 11.8M people losing health coverage. Food Research and Action Center reports 5.8M people have already lost SNAP access as of Aug 2026. Cuts take effect as tariff-driven food inflation accelerates. Average affected family loses $146/month.",
+    note: "CBO confirmed 11.8M people losing health coverage. New SNAP eligibility rules and Medicaid restrictions took effect October 1, 2026 — lawful non-citizens are now losing federally funded Medicaid in most states, and stricter SNAP work requirements are being implemented. Colorado, North Carolina and other states began disenrolling affected recipients the week of Oct 1. Work requirements for Medicaid begin January 2027, projected to affect an additional 8–10M enrollees. Average affected family loses $146/month.",
   },
   {
     id: "doj_fund",
@@ -61,8 +61,8 @@ const STATIC_CATEGORIES = [
     baseAmount: 1_776_000_000,
     ratePerSecond: 0,
     color: "#2980b9",
-    lastUpdated: "September 2026",
-    lastVerified: "September 2026",
+    lastUpdated: "October 2026",
+    lastVerified: "October 2026",
     source: "AP, Washington Post, DOJ",
     treasuryLive: false,
     resolved: true,
@@ -76,8 +76,8 @@ const STATIC_CATEGORIES = [
     baseAmount: 1_413_000_000,
     ratePerSecond: 0,
     color: "#f39c12",
-    lastUpdated: "September 2026",
-    lastVerified: "September 2026",
+    lastUpdated: "October 2026",
+    lastVerified: "October 2026",
     source: "CNN, ABC News, NYT",
     treasuryLive: false,
     resolved: false,
@@ -85,17 +85,17 @@ const STATIC_CATEGORIES = [
   },
   {
     id: "litigation",
-    label: "Federal Litigation Defense (952+ Lawsuits)",
+    label: "Federal Litigation Defense (975+ Lawsuits)",
     subtitle: "DOJ defending record number of challenges to administration actions",
     baseAmount: 750_000_000,
     ratePerSecond: 14,
     color: "#16a085",
-    lastUpdated: "September 2026",
-    lastVerified: "September 2026",
+    lastUpdated: "October 2026",
+    lastVerified: "October 2026",
     source: "Just Security, Brennan Center",
     treasuryLive: false,
     resolved: false,
-    note: "952 cases tracked by Just Security as of September 2026, up from 753 in April. Roughly 1.5 new cases per day. Democratic AGs report winning 55 of 67 decided cases. Challenges span immigration, tariffs, constitutional authority, and executive orders.",
+    note: "975 cases tracked by Just Security as of October 2, 2026, up from 952 in September and 753 in April. Roughly 1.5 new cases per day. Democratic AGs report winning 55 of 67 decided cases. Challenges span immigration, tariffs, constitutional authority, and executive orders.",
   },
   {
     id: "doge_gap",
@@ -104,8 +104,8 @@ const STATIC_CATEGORIES = [
     baseAmount: 147_600_000_000,
     ratePerSecond: 0,
     color: "#7b68ee",
-    lastUpdated: "September 2026",
-    lastVerified: "September 2026",
+    lastUpdated: "October 2026",
+    lastVerified: "October 2026",
     source: "DOGE.gov dashboard vs. GAO-26-106361, Reuters fact-check, USASpending.gov",
     treasuryLive: false,
     resolved: false,
@@ -118,8 +118,8 @@ const STATIC_CATEGORIES = [
     baseAmount: 935_000_000_000,
     ratePerSecond: 2_963,
     color: "#e74c3c",
-    lastUpdated: "September 2026",
-    lastVerified: "September 2026",
+    lastUpdated: "October 2026",
+    lastVerified: "October 2026",
     source: "CBO Long-Term Budget Outlook 2026; OMB interest rate projections",
     treasuryLive: false,
     resolved: false,
@@ -138,7 +138,7 @@ const TREASURY_CATEGORIES = [
     treasuryKey: "dhs",
     treasuryLive: true,
     lastUpdated: "Live from Treasury",
-    lastVerified: "September 2026",
+    lastVerified: "October 2026",
     source: "US Treasury Fiscal Data API — MTS Table 5",
     resolved: false,
     note: "Includes ICE, CBP, USCIS, Coast Guard, TSA. The $75B OBBBA supplement makes ICE larger than all other federal law enforcement combined. Updated monthly when Treasury publishes MTS.",
@@ -153,7 +153,7 @@ const TREASURY_CATEGORIES = [
     treasuryKey: "dod",
     treasuryLive: true,
     lastUpdated: "Live from Treasury",
-    lastVerified: "September 2026",
+    lastVerified: "October 2026",
     source: "US Treasury Fiscal Data API — MTS Table 5",
     resolved: false,
     note: "Pentagon confirmed $44.13B in direct military costs through day 211 (Aug 2026). Now in ceasefire/standby phase at ~$95M/day, down from ~$362M/day during active combat. Harvard economist Linda Bilmes projects $1T total economic cost including supply chain, gas prices, and veteran care.",
@@ -170,7 +170,7 @@ function fmt(n) {
 }
 
 function isStale(lastVerified) {
-  const today = new Date("2026-09-29");
+  const today = new Date("2026-10-05");
   if (!lastVerified) return false;
   const months = { January:0,February:1,March:2,April:3,May:4,June:5,
     July:6,August:7,September:8,October:9,November:10,December:11 };
@@ -204,7 +204,7 @@ function exportImage(total, allCats, allAmounts) {
   ctx.fillText("The Real Cost of Current Policy", 36, 72);
   ctx.fillStyle = C.inkMid;
   ctx.font = "14px Georgia, serif";
-  ctx.fillText("Authorized, allocated & projected taxpayer exposure · September 2026", 36, 96);
+  ctx.fillText("Authorized, allocated & projected taxpayer exposure · October 2026", 36, 96);
   ctx.fillStyle = C.accent;
   ctx.font = "700 58px monospace";
   ctx.textAlign = "right";
@@ -249,7 +249,7 @@ function exportImage(total, allCats, allAmounts) {
   ctx.font = "11px monospace";
   ctx.fillText("uncommongatheringgroup.com/tracker", 36, H - 14);
   ctx.textAlign = "right";
-  ctx.fillText("Data: US Treasury API · CBO · Tax Foundation · September 2026", W - 36, H - 14);
+  ctx.fillText("Data: US Treasury API · CBO · Tax Foundation · October 2026", W - 36, H - 14);
   ctx.textAlign = "left";
   const link = document.createElement("a");
   link.download = `policy-cost-${new Date().toISOString().slice(0,10)}.png`;
@@ -1148,7 +1148,7 @@ function TrackerPage({ elapsed, treasuryData, treasuryStatus, fetchTreasury, tre
                 The Real Cost of Current Policy
               </h1>
               <div style={{ fontSize: "13px", color: C.inkMid, fontFamily: "Georgia, serif", fontStyle: "italic", marginBottom: "12px" }}>
-                Authorized, allocated &amp; projected taxpayer exposure · Updated September 2026
+                Authorized, allocated &amp; projected taxpayer exposure · Updated October 2026
               </div>
               <div style={{ marginBottom: "12px" }}>
                 <span style={{
@@ -1292,7 +1292,7 @@ function TrackerPage({ elapsed, treasuryData, treasuryStatus, fetchTreasury, tre
               Research and analysis by Uncommon Gathering Group · uncommongatheringgroup.com<br />
               Treasury data: fiscaldata.treasury.gov (MTS Table 5, free public API, no key required)<br />
               Other sources: CBO · Tax Foundation · Brennan Center · National Immigration Forum · Pentagon Congressional Testimony · Just Security · Food Research and Action Center · AP · NPR · CBS News · CNN · ABC News<br />
-              <span>Treasury figures refresh automatically. CBO/projection figures last reviewed and verified September 2026.</span>
+              <span>Treasury figures refresh automatically. CBO/projection figures last reviewed and verified October 2026.</span>
             </div>
           </div>
         )}
