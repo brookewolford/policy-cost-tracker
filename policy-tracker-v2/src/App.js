@@ -663,6 +663,112 @@ function HomePage({ setPage, total, liveRate }) {
   );
 }
 
+// ── Floating subscribe widget ──────────────────────────────────────
+function FloatingSubscribe() {
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState(null);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: "28631f53-f9bf-47d3-b8bc-3d16c449c2e6",
+          subject: "Newsletter Signup",
+          email,
+          message: `New newsletter signup: ${email}`,
+          from_name: "Policy Cost Tracker Newsletter",
+          botcheck: "",
+        }),
+      });
+      const data = await res.json();
+      setStatus(data.success ? "sent" : "error");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <div style={{ position: "fixed", bottom: "28px", right: "28px", zIndex: 9999, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "10px" }}>
+      {open && (
+        <div style={{
+          background: C.bgCard,
+          border: `1px solid ${C.rule}`,
+          borderRadius: "4px",
+          padding: "24px",
+          width: "min(320px, calc(100vw - 56px))",
+          boxShadow: "0 8px 32px rgba(10,9,8,0.12)",
+        }}>
+          <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", color: C.inkLight, margin: "0 0 10px" }}>
+            Uncommon Gathering Group
+          </p>
+          <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "17px", color: C.ink, margin: "0 0 6px", fontWeight: 400, lineHeight: 1.3 }}>
+            Stay informed on policy
+          </p>
+          <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "13px", color: C.inkLight, lineHeight: 1.6, margin: "0 0 18px" }}>
+            Briefs, tracker updates, and analysis. No more than twice a month.
+          </p>
+          {status === "sent" ? (
+            <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", color: C.green, margin: 0 }}>
+              You're on the list. Thank you.
+            </p>
+          ) : (
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                required
+                style={{ width: "100%", padding: "10px 14px", fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "14px", border: `1px solid ${C.rule}`, background: C.bg, color: C.ink, outline: "none", borderRadius: "2px", boxSizing: "border-box" }}
+              />
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                style={{ padding: "10px 18px", background: C.ink, color: C.bg, fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "12px", letterSpacing: "0.09em", textTransform: "uppercase", border: "none", cursor: "pointer", borderRadius: "2px", opacity: status === "sending" ? 0.6 : 1 }}
+              >
+                {status === "sending" ? "Sending..." : "Subscribe"}
+              </button>
+              {status === "error" && (
+                <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "12px", color: "#c0392b", margin: 0 }}>
+                  Something went wrong. Try again.
+                </p>
+              )}
+            </form>
+          )}
+        </div>
+      )}
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          padding: "11px 20px",
+          background: C.ink,
+          color: C.bg,
+          fontFamily: "'Instrument Sans', system-ui, sans-serif",
+          fontSize: "12px",
+          letterSpacing: "0.09em",
+          textTransform: "uppercase",
+          border: "none",
+          borderRadius: "2px",
+          cursor: "pointer",
+          boxShadow: "0 4px 16px rgba(10,9,8,0.18)",
+        }}
+      >
+        <span style={{ fontSize: "14px", lineHeight: 1 }}>{open ? "×" : "✉"}</span>
+        {open ? "Close" : "Subscribe"}
+      </button>
+    </div>
+  );
+}
+
 // ── Newsletter section ─────────────────────────────────────────────
 function NewsletterSection() {
   const [email, setEmail] = useState("");
@@ -1502,6 +1608,8 @@ export default function App() {
           liveRate={liveRate}
         />
       )}
+
+      <FloatingSubscribe />
 
       <style>{`
         * { box-sizing: border-box; }
