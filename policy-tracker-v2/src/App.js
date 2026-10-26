@@ -38,7 +38,7 @@ const STATIC_CATEGORIES = [
     source: "Congressional Budget Office dynamic score, Tax Foundation, CRFB",
     treasuryLive: false,
     resolved: false,
-    note: "CBO updated dynamic score: $4.1–4.7T deficit increase over 10 years (revised from original $3.4T static score). CRFB projects 30-year cost exceeds $10T when compounding interest is included. Top 1% receives avg $50,000/yr tax cut. Bottom 10% lose $1,600/yr. National debt-to-GDP projected to climb from 162% to 190%+ over 35 years. Tariff revenue is paid overwhelmingly by American consumers, not foreign governments: Peterson Institute and Yale Budget Lab estimate 85–90% of tariff costs pass through to US households as higher prices, with lower-income households bearing the highest proportional burden.",
+    note: "CBO updated dynamic score: $4.1–4.7T deficit increase over 10 years (revised from original $3.4T static score). CRFB projects 30-year cost exceeds $10T when compounding interest is included. The FY2026 federal deficit came in at $2.0 trillion — up 12% in a single year — the largest peacetime deficit in US history (CBO, October 2026). Top 1% receives avg $50,000/yr tax cut. Bottom 10% lose $1,600/yr. National debt-to-GDP projected to climb from 162% to 190%+ over 35 years. Tariff revenue is paid overwhelmingly by American consumers, not foreign governments: Peterson Institute and Yale Budget Lab estimate 85–90% of tariff costs pass through to US households as higher prices, with lower-income households bearing the highest proportional burden.",
   },
   {
     id: "snap_medicaid_harm",
@@ -52,7 +52,7 @@ const STATIC_CATEGORIES = [
     source: "CBO, Food Research and Action Center, Urban Institute, USNews, KUNC",
     treasuryLive: false,
     resolved: false,
-    note: "CBO confirmed 11.8M people losing health coverage. New SNAP eligibility rules and Medicaid restrictions took effect October 1, 2026 — lawful non-citizens are now losing federally funded Medicaid in most states, and stricter SNAP work requirements are being implemented. Colorado, North Carolina and other states began disenrolling affected recipients the week of Oct 1. Work requirements for Medicaid begin January 2027, projected to affect an additional 8–10M enrollees. Average affected family loses $146/month.",
+    note: "CBO confirmed 11.8M people losing health coverage. SNAP work requirements now apply to all adults ages 18–64 as of October 1, 2026 — anyone without a dependent must work, train, or volunteer 80 hours/month or face a 3-month benefit cap within a 3-year period. Lawful non-citizens are losing federally funded Medicaid in most states. Colorado, North Carolina and other states began disenrolling affected recipients the week of Oct 1. Medicaid work requirements begin January 1, 2027: Washington state projects 250,000 losing coverage; Massachusetts projects 360,000 affected. States are required to notify enrollees now. Average affected family loses $146/month.",
   },
   {
     id: "doj_fund",
@@ -1275,6 +1275,18 @@ function TrackerPage({ elapsed, treasuryData, treasuryStatus, fetchTreasury, tre
                 <div style={{ fontSize: "13px", color: C.inkLight, marginTop: "5px", fontFamily: "Georgia, serif", fontStyle: "italic" }}>Treasury actual + CBO projected + authorized</div>
               </div>
               <AnimatedNumber value={total} style={{ fontFamily: "monospace", fontSize: "40px", fontWeight: 700, color: C.accent, letterSpacing: "-1px" }} />
+            </div>
+
+            {/* Midterm callout */}
+            <div style={{ marginTop: "16px", background: "#fffbe6", border: `1px solid #e0d080`, borderLeft: `4px solid ${C.gold}`, borderRadius: "3px", padding: "16px 22px", display: "flex", alignItems: "flex-start", gap: "14px", flexWrap: "wrap" }}>
+              <div style={{ fontFamily: "monospace", fontSize: "22px", lineHeight: 1 }}>🗳</div>
+              <div>
+                <div style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "12px", letterSpacing: "0.12em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: "6px" }}>Midterm Elections — November 2026</div>
+                <div style={{ fontSize: "13px", color: C.inkMid, fontFamily: "Georgia, serif", lineHeight: 1.65 }}>
+                  Every figure on this tracker was authorized by the current Congress or the executive branch. Midterm elections determine who controls the House and Senate starting January 2027 — and whether any of these policies can be reversed, paused, or expanded.{" "}
+                  <a href="https://vote.gov" target="_blank" rel="noopener" style={{ color: C.gold, fontWeight: 600 }}>Check your registration at vote.gov →</a>
+                </div>
+              </div>
             </div>
 
             {/* What this could fund */}
