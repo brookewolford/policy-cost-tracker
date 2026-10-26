@@ -899,7 +899,7 @@ function MethodologyPage() {
 
 // ── Briefs page ────────────────────────────────────────────────────
 // ── Share button (per brief) ───────────────────────────────────────
-function ShareButton({ briefId, briefTitle }) {
+function BriefShareButton({ briefId, briefTitle }) {
   const [copied, setCopied] = useState(false);
 
   function handleShare() {
@@ -1119,7 +1119,7 @@ function BriefsPage() {
             >
               {open === brief.id ? "Collapse" : "Read brief"}
             </button>
-            <ShareButton briefId={brief.id} briefTitle={brief.title} />
+            <BriefShareButton briefId={brief.id} briefTitle={brief.title} />
           </div>
 
           {open === brief.id && (
