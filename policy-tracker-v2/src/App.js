@@ -898,6 +898,55 @@ function MethodologyPage() {
 }
 
 // ── Briefs page ────────────────────────────────────────────────────
+// ── Share button (per brief) ───────────────────────────────────────
+function ShareButton({ briefId, briefTitle }) {
+  const [copied, setCopied] = useState(false);
+
+  function handleShare() {
+    const url = `${window.location.origin}${window.location.pathname}#brief=${briefId}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {
+      // fallback: select a temp input
+      const el = document.createElement("input");
+      el.value = url;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  return (
+    <button
+      onClick={handleShare}
+      title={`Copy link to "${briefTitle}"`}
+      style={{
+        fontFamily: "'Instrument Sans', system-ui, sans-serif",
+        fontSize: "12px",
+        letterSpacing: "0.1em",
+        textTransform: "uppercase",
+        color: copied ? C.green : C.inkMid,
+        background: "transparent",
+        border: `1px solid ${copied ? C.green : C.rule}`,
+        padding: "10px 18px",
+        cursor: "pointer",
+        borderRadius: "2px",
+        display: "flex",
+        alignItems: "center",
+        gap: "6px",
+        transition: "color 0.2s, border-color 0.2s",
+      }}
+    >
+      <span style={{ fontSize: "13px" }}>{copied ? "✓" : "↗"}</span>
+      {copied ? "Copied" : "Share"}
+    </button>
+  );
+}
+
 function BriefsPage() {
   const [open, setOpen] = useState(null);
 
@@ -1063,12 +1112,15 @@ function BriefsPage() {
             {brief.summary}
           </p>
 
-          <button
-            onClick={() => setOpen(open === brief.id ? null : brief.id)}
-            style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", color: C.bgCard, background: C.ink, border: "none", padding: "10px 22px", cursor: "pointer", borderRadius: "2px" }}
-          >
-            {open === brief.id ? "Collapse" : "Read brief"}
-          </button>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+            <button
+              onClick={() => setOpen(open === brief.id ? null : brief.id)}
+              style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", color: C.bgCard, background: C.ink, border: "none", padding: "10px 22px", cursor: "pointer", borderRadius: "2px" }}
+            >
+              {open === brief.id ? "Collapse" : "Read brief"}
+            </button>
+            <ShareButton briefId={brief.id} briefTitle={brief.title} />
+          </div>
 
           {open === brief.id && (
             <div style={{ marginTop: "40px", borderTop: `1px solid ${C.ruleLight}`, paddingTop: "8px" }}>
@@ -1087,23 +1139,6 @@ function BriefsPage() {
                 </div>
               ))}
 
-              <div style={{ borderTop: `1px solid ${C.ruleLight}`, paddingTop: "28px" }}>
-                <h3 style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, marginBottom: "14px" }}>
-                  Request the full brief
-                </h3>
-                <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.inkLight, lineHeight: 1.75, maxWidth: "560px", marginBottom: "0" }}>
-                  {brief.id === "us-fiscal-policy-framework"
-                    ? "The full three-part series is available upon request."
-                    : "The full brief is available upon request."}{" "}
-                  <button
-                    onClick={() => { window.location.hash = "about"; }}
-                    style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.ink, background: "transparent", border: "none", padding: 0, cursor: "pointer", textDecoration: "underline", textUnderlineOffset: "3px" }}
-                  >
-                    Contact us
-                  </button>
-                  {" "}to request a copy.
-                </p>
-              </div>
             </div>
           )}
         </div>
