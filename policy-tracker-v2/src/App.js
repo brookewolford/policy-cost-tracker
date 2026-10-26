@@ -795,7 +795,83 @@ function MethodologyPage() {
 function BriefsPage() {
   const [open, setOpen] = useState(null);
 
-  const brief = {
+  const briefs = [
+  {
+    id: "locked-market-homeownership",
+    label: "October 2026",
+    tag: "Housing Policy",
+    title: "The Locked Market: What's Keeping Americans from Buying and Selling",
+    authors: "Uncommon Gathering Group",
+    summary: "U.S. homeownership is out of reach for a growing share of Americans. A 4-million-unit supply shortage keeps prices elevated, mortgage rates remain high after years of volatility, and the lock-in effect has frozen move-up inventory across the country. This brief covers the mechanics of the locked market, whether prices can realistically fall given the shortage, how markets rank from hardest to most accessible for first-time buyers, and what policy levers could expand supply and restore affordability over time.",
+    sections: [
+      {
+        title: "The 4-million-unit shortage: why prices won't just correct",
+        items: [
+          "The U.S. is short approximately 4.03 million homes, according to Realtor.com research published in March 2026, the first time the cumulative deficit has crossed the 4-million-unit threshold. This is a structural problem, not a cyclical one.",
+          "The shortage built up over more than a decade of underbuilding. After the 2008 housing crash, construction collapsed and never fully recovered: single-family starts fell to 940,000 in 2025, the lowest since 2019, while household formation continued. About 1.82 million millennial and Gen Z households are estimated to be missing, meaning people who would have formed their own households under more affordable conditions but have not.",
+          "Even a sharp increase in construction would take years to close the gap. Realtor.com estimates that with building up 50% above current rates and pent-up demand dissipating gradually, it would take roughly seven years to eliminate the deficit. There is no scenario in which supply catches up quickly.",
+          "This shortage keeps a floor under prices. In a market where demand exceeds supply by 4 million units, prices can soften in overbuilt local markets but are unlikely to fall sharply at a national level. The Northeast's deficit is the most severe relative to its construction pipeline since 2012. The South carries the largest absolute shortage at 1.62 million units.",
+          "Homeowner vacancy rates confirm the picture: 1.2% in Q4 2025, well below historical norms. Very few homes are sitting empty and available.",
+        ],
+      },
+      {
+        title: "Will prices go down? A look at the forecasts",
+        items: [
+          "No major forecaster projects a national home price decline in 2026 or 2027. The consensus is modest appreciation: NAR projects 3 to 5% annual growth through 2027; J.P. Morgan Global Research projects 2.5 to 3.0%; Fannie Mae projects 1.9 to 2.0%; the Mortgage Bankers Association projects roughly 0.8%; Zillow projects near-zero. Prices are plateauing, not correcting.",
+          "Local declines are possible in some markets. Sun Belt metros that saw speculative overbuilding during 2020 to 2022, including parts of Phoenix, Austin, Tampa, and suburban Florida, have excess inventory and may see price softening. Mountain West markets face similar dynamics. These are local stories, not a national trend.",
+          "The rate-cut scenario many buyers are waiting for is not a fix for affordability. If the Federal Reserve cuts rates significantly, demand returns faster than supply can respond and prices rise. The affordability picture may not improve even with lower rates.",
+          "If mortgage rates drop to the 5.5 to 6.0% range, more locked-in sellers with sub-3% mortgages begin to accept the trade-off and list their homes, which would modestly expand inventory. Some models project 10 to 15% more existing home sales at 6.0% versus 7.5%, which would take some pressure off the tightest markets.",
+          "The 3 to 5 year outlook: prices nationally will likely remain elevated, with appreciation slowing but not reversing. Affordability improves only gradually, primarily through income growth and incremental supply additions. There is no broad reset coming for most markets.",
+        ],
+      },
+      {
+        title: "Market rankings: hardest to most accessible for first-time buyers",
+        items: [
+          "Not all markets are equally punishing. The gap between the hardest and most accessible cities is enormous, and geography matters more than most buyers realize. The rankings below use a price-to-income ratio (median list price divided by median income for buyers ages 25 to 44) as the primary measure, supplemented by mortgage-share-of-income data from Realtor.com's 2026 first-time buyer index.",
+          "The hardest markets, ranked hardest first: (1) Los Angeles, CA, ratio 13.0, median list price $1.07M; (2) San Diego, CA, ratio 9.2; (3) San Jose, CA, ratio 8.4; (4) San Francisco, CA, ratio 7.6; (5) Sacramento, CA, ratio 7.5; (6) Riverside, CA, ratio 7.1; (7) Salt Lake City, UT, ratio 6.7; (8) New York City, NY, ratio 6.6; (9) Miami, FL, ratio 6.6; (10) Denver, CO, ratio 6.6. The national average ratio is 5.5, itself a record high. NerdWallet found Los Angeles has held last place in every quarter of its affordability study. A first-time buyer there needs roughly $214,000 just for a 20% down payment.",
+          "California's concentration at the top of the list reflects decades of restrictive zoning, limited supply, and persistent in-migration. No single policy has reversed it.",
+          "The most accessible markets, per Realtor.com's 2026 first-time buyer index (affordability, inventory, commute times, local amenities): (1) Granite City, IL, median list price $119,000, mortgage at 12.6% of income; (2) Rochester, NY, $139,900, 19.1%; (3) Garfield Heights, OH, $140,000, 17.2%; (4) Birmingham, AL, $148,950, 20.8%; (5) Harrisburg, PA, $151,999, 19.7%; (6) North Little Rock, AR, $170,000, 21.2%; (7) Syracuse, NY, $169,900, 22.0%; (8) Pittsburgh, PA, $249,000, 23.6%; (9) Baltimore, MD, $223,900, 23.6%; (10) St. Louis Park, MN, $375,000, 25.4%. Only 35.2% of evaluated markets nationally cleared the affordability threshold.",
+          "Accessible markets cluster in the Midwest, mid-Atlantic, and upper South. No Western market has made the top 10 for two consecutive years. St. Louis Park is the outlier on price but clears the threshold because local incomes for young buyers are significantly higher, at $98,036 median for ages 25 to 34.",
+          "For buyers who can work remotely or relocate, the math is stark: the mortgage payment on a $150,000 home at 7% with 10% down is roughly $900 per month. That same $900 per month covers about $140,000 in purchase price in Los Angeles, which buys nothing.",
+        ],
+      },
+      {
+        title: "What buyers should consider right now",
+        items: [
+          "Waiting for a crash carries real opportunity cost. Every year of renting while waiting for prices to fall is a year of building no equity, paying someone else's mortgage, and facing rent increases. If you can afford the payment, the decision to buy is less about timing the market than about financial stability and time horizon.",
+          "Run the actual numbers for your situation. The rule of thumb that renting is cheaper than owning breaks down in markets where rents are also high and rising. A 30-year mortgage at 7.0% on a $450,000 home is expensive, but so is $3,200 per month in rent that rises 4% annually.",
+          "Plan on a long hold. Buyers who stay 7 to 10 years absorb rate and price volatility far better than those with a 3-year horizon. No 10-year period in the postwar era has ended with home prices lower than they started nationally. For buyers with short timelines, renting preserves flexibility.",
+          "Do not count on a refinance. If your plan requires refinancing at a lower rate in 2 to 3 years, model what happens if rates stay elevated. The phrase 'date the rate, marry the house' only holds if you can afford the house at the current rate without the refinance.",
+          "Account for the full cost of ownership. Property taxes, insurance (premiums have spiked 30 to 50% in coastal and wildfire-risk areas), HOA fees, and maintenance typically add 1.5 to 3% of the home's value annually. A $500,000 home may carry $10,000 to $15,000 in annual costs beyond the mortgage.",
+          "First-time buyers face the steepest climb. The median age of first-time buyers hit a record 40 in 2025, up from 29 in 1981. Down payment requirements have priced out most younger buyers in expensive metros without family wealth to draw on. In those markets, continued renting or relocation may be the more sustainable choice over an overstretched purchase.",
+        ],
+      },
+      {
+        title: "Policy interventions that could help",
+        items: [
+          "Zoning reform is the highest-leverage tool available. Most of the U.S. housing shortage traces back to exclusionary single-family zoning that prevents density. States including California, Oregon, Montana, and Florida have begun requiring cities to allow duplexes and small multifamily housing in single-family zones. Federal incentives tied to zoning reform could accelerate this nationally.",
+          "Low-Income Housing Tax Credit (LIHTC) expansion is the most proven tool for affordable rental construction. LIHTC produces roughly 100,000 affordable units per year; developers and advocates broadly agree the program could be scaled with additional allocation authority. The 2025 OBBBA did not include LIHTC expansion.",
+          "Accessory Dwelling Unit (ADU) permitting reform could add supply without displacing existing residents. California's ADU reforms since 2017 produced a 10x increase in ADU permits. Federal grants tied to ADU-friendly zoning would be a low-cost supply lever.",
+          "Mortgage interest deduction reform could redirect housing subsidies to where they are needed. The MID disproportionately benefits high-income homeowners: roughly 75% of the benefit flows to the top quintile. Capping the deduction and redirecting the savings toward first-time buyer assistance or affordable rental construction would shift the subsidy toward buyers who need it most.",
+          "Down payment assistance programs have a track record in competitive markets. Several state housing finance agencies have piloted shared equity programs, forgivable second mortgages, and matched-savings accounts. Federal support for scaling these programs could expand first-generation homeownership.",
+          "Construction cost reduction through workforce investment and materials policy could lower the cost per unit. Labor shortages in the construction trades have added an estimated 15 to 20% to construction costs since 2020. Registered apprenticeship expansion, immigration reform that includes construction trades, and domestic production incentives for building materials could lower the floor on new construction.",
+        ],
+      },
+      {
+        title: "Sources and methodology",
+        items: [
+          "Supply gap: Realtor.com / National Association of Realtors (March 2026), Freddie Mac Housing Research (2024), NAHB Housing Market Index.",
+          "Price forecasts: NAR, J.P. Morgan Global Research, Fannie Mae Economic and Strategic Research Group, Mortgage Bankers Association, Zillow Research (all Q3 2026).",
+          "Market rankings: NerdWallet Q2 2026 affordability study (50 largest metros), Realtor.com 2026 first-time buyer index.",
+          "Affordability: NAR Housing Affordability Index, Federal Reserve Bank of Atlanta Home Ownership Affordability Monitor, Redfin Homebuyer Demand Index.",
+          "Lock-in effect: Federal Reserve Bank of New York, Freddie Mac Primary Mortgage Market Survey.",
+          "Policy: Furman Center for Real Estate and Urban Policy (NYU), Urban Institute, National Low Income Housing Coalition, Center on Budget and Policy Priorities.",
+          "All figures are national aggregates unless noted. Local market conditions vary significantly. Nothing in this brief constitutes financial or investment advice.",
+        ],
+      },
+    ],
+  },
+  {
     id: "us-fiscal-policy-framework",
     label: "May 2026",
     tag: "Tax and Fiscal Policy",
@@ -843,7 +919,8 @@ function BriefsPage() {
         ],
       },
     ],
-  };
+  },
+  ];
 
   return (
     <div style={{ maxWidth: "1020px", margin: "0 auto", padding: "64px 28px 96px" }}>
@@ -858,74 +935,78 @@ function BriefsPage() {
         Fiscal policy, public investment, and government accountability.
       </p>
 
-      {/* Brief card */}
-      <div style={{ borderTop: `2px solid ${C.ink}`, paddingTop: "32px" }}>
-        <div style={{ display: "flex", gap: "16px", marginBottom: "12px", flexWrap: "wrap", alignItems: "center" }}>
-          <span style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: C.inkLight }}>
-            {brief.label}
-          </span>
-          <span style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: C.inkLight, background: C.rule, padding: "2px 10px", borderRadius: "2px" }}>
-            {brief.tag}
-          </span>
-        </div>
-
-        <h2 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "clamp(20px,3.5vw,28px)", fontWeight: 400, color: C.ink, marginBottom: "10px", lineHeight: 1.3 }}>
-          {brief.title}
-        </h2>
-        <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", color: C.inkLight, marginBottom: "20px" }}>
-          {brief.authors}
-        </p>
-        <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "16px", color: C.inkLight, lineHeight: 1.75, marginBottom: "28px", maxWidth: "720px" }}>
-          {brief.summary}
-        </p>
-
-        <button
-          onClick={() => setOpen(open === brief.id ? null : brief.id)}
-          style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, background: "transparent", border: `1px solid ${C.ink}`, padding: "10px 20px", cursor: "pointer", borderRadius: "2px" }}
-        >
-          {open === brief.id ? "Hide detail" : "Read more"}
-        </button>
-
-        {open === brief.id && (
-          <div style={{ marginTop: "40px" }}>
-            {brief.sections.map(({ title, items }) => (
-              <div key={title} style={{ borderTop: `1px solid ${C.ruleLight}`, paddingTop: "28px", marginBottom: "32px" }}>
-                <h3 style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, marginBottom: "20px" }}>
-                  {title}
-                </h3>
-                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                  {items.map((item, i) => (
-                    <li key={i} style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.inkLight, lineHeight: 1.75, paddingLeft: "16px", borderLeft: `2px solid ${C.rule}`, marginBottom: "14px", maxWidth: "680px" }}>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-
-            <div style={{ borderTop: `1px solid ${C.ruleLight}`, paddingTop: "28px" }}>
-              <h3 style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, marginBottom: "14px" }}>
-                Request the full brief
-              </h3>
-              <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.inkLight, lineHeight: 1.75, maxWidth: "560px", marginBottom: "0" }}>
-                The full three-part series is available upon request.{" "}
-                <button
-                  onClick={() => { window.location.hash = "about"; }}
-                  style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.ink, background: "transparent", border: "none", padding: 0, cursor: "pointer", textDecoration: "underline", textUnderlineOffset: "3px" }}
-                >
-                  Contact us
-                </button>
-                {" "}to request a copy.
-              </p>
-            </div>
+      {/* Brief cards */}
+      {briefs.map((brief, idx) => (
+        <div key={brief.id} style={{ borderTop: idx === 0 ? `2px solid ${C.ink}` : `1px solid ${C.rule}`, paddingTop: "32px", marginBottom: "48px" }}>
+          <div style={{ display: "flex", gap: "16px", marginBottom: "12px", flexWrap: "wrap", alignItems: "center" }}>
+            <span style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: C.inkLight }}>
+              {brief.label}
+            </span>
+            <span style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: C.inkLight, background: C.rule, padding: "2px 10px", borderRadius: "2px" }}>
+              {brief.tag}
+            </span>
           </div>
-        )}
-      </div>
+
+          <h2 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "clamp(20px,3.5vw,28px)", fontWeight: 400, color: C.ink, marginBottom: "10px", lineHeight: 1.3 }}>
+            {brief.title}
+          </h2>
+          <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", color: C.inkLight, marginBottom: "20px" }}>
+            {brief.authors}
+          </p>
+          <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "16px", color: C.inkLight, lineHeight: 1.75, marginBottom: "28px", maxWidth: "720px" }}>
+            {brief.summary}
+          </p>
+
+          <button
+            onClick={() => setOpen(open === brief.id ? null : brief.id)}
+            style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, background: "transparent", border: `1px solid ${C.ink}`, padding: "10px 20px", cursor: "pointer", borderRadius: "2px" }}
+          >
+            {open === brief.id ? "Hide detail" : "Read more"}
+          </button>
+
+          {open === brief.id && (
+            <div style={{ marginTop: "40px" }}>
+              {brief.sections.map(({ title, items }) => (
+                <div key={title} style={{ borderTop: `1px solid ${C.ruleLight}`, paddingTop: "28px", marginBottom: "32px" }}>
+                  <h3 style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, marginBottom: "20px" }}>
+                    {title}
+                  </h3>
+                  <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                    {items.map((item, i) => (
+                      <li key={i} style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.inkLight, lineHeight: 1.75, paddingLeft: "16px", borderLeft: `2px solid ${C.rule}`, marginBottom: "14px", maxWidth: "680px" }}>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+
+              <div style={{ borderTop: `1px solid ${C.ruleLight}`, paddingTop: "28px" }}>
+                <h3 style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, marginBottom: "14px" }}>
+                  Request the full brief
+                </h3>
+                <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.inkLight, lineHeight: 1.75, maxWidth: "560px", marginBottom: "0" }}>
+                  {brief.id === "us-fiscal-policy-framework"
+                    ? "The full three-part series is available upon request."
+                    : "The full brief is available upon request."}{" "}
+                  <button
+                    onClick={() => { window.location.hash = "about"; }}
+                    style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.ink, background: "transparent", border: "none", padding: 0, cursor: "pointer", textDecoration: "underline", textUnderlineOffset: "3px" }}
+                  >
+                    Contact us
+                  </button>
+                  {" "}to request a copy.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
 
       {/* More coming */}
-      <div style={{ borderTop: `1px solid ${C.ruleLight}`, marginTop: "64px", paddingTop: "40px" }}>
+      <div style={{ borderTop: `1px solid ${C.ruleLight}`, marginTop: "16px", paddingTop: "40px" }}>
         <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", color: C.inkLight, letterSpacing: "0.04em" }}>
-          Additional briefs on housing policy, healthcare financing, and labor market structure are in progress.
+          Additional briefs on healthcare financing and labor market structure are in progress.
         </p>
       </div>
     </div>
