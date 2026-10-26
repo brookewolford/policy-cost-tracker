@@ -1042,44 +1042,44 @@ function BriefsPage() {
       </p>
 
       {/* Brief cards */}
-      {briefs.map((brief, idx) => (
-        <div key={brief.id} style={{ borderTop: idx === 0 ? `2px solid ${C.ink}` : `1px solid ${C.rule}`, paddingTop: "32px", marginBottom: "48px" }}>
-          <div style={{ display: "flex", gap: "16px", marginBottom: "12px", flexWrap: "wrap", alignItems: "center" }}>
-            <span style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: C.inkLight }}>
+      {briefs.map((brief) => (
+        <div key={brief.id} style={{ background: C.bgCard, borderLeft: `4px solid ${C.ink}`, boxShadow: "0 2px 12px rgba(10,9,8,0.07)", padding: "36px 36px 32px", marginBottom: "32px" }}>
+          <div style={{ display: "flex", gap: "16px", marginBottom: "16px", flexWrap: "wrap", alignItems: "center" }}>
+            <span style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", color: C.inkLight }}>
               {brief.label}
             </span>
-            <span style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: C.inkLight, background: C.rule, padding: "2px 10px", borderRadius: "2px" }}>
+            <span style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", color: C.bgCard, background: C.inkMid, padding: "3px 10px", borderRadius: "2px" }}>
               {brief.tag}
             </span>
           </div>
 
-          <h2 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "clamp(20px,3.5vw,28px)", fontWeight: 400, color: C.ink, marginBottom: "10px", lineHeight: 1.3 }}>
+          <h2 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "clamp(20px,3.5vw,26px)", fontWeight: 400, color: C.ink, marginBottom: "8px", lineHeight: 1.3 }}>
             {brief.title}
           </h2>
-          <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", color: C.inkLight, marginBottom: "20px" }}>
+          <p style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "12px", letterSpacing: "0.06em", color: C.inkLight, marginBottom: "18px", textTransform: "uppercase" }}>
             {brief.authors}
           </p>
-          <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "16px", color: C.inkLight, lineHeight: 1.75, marginBottom: "28px", maxWidth: "720px" }}>
+          <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "16px", color: C.inkMid, lineHeight: 1.8, marginBottom: "28px", maxWidth: "700px" }}>
             {brief.summary}
           </p>
 
           <button
             onClick={() => setOpen(open === brief.id ? null : brief.id)}
-            style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, background: "transparent", border: `1px solid ${C.ink}`, padding: "10px 20px", cursor: "pointer", borderRadius: "2px" }}
+            style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", color: C.bgCard, background: C.ink, border: "none", padding: "10px 22px", cursor: "pointer", borderRadius: "2px" }}
           >
-            {open === brief.id ? "Hide detail" : "Read more"}
+            {open === brief.id ? "Collapse" : "Read brief"}
           </button>
 
           {open === brief.id && (
-            <div style={{ marginTop: "40px" }}>
+            <div style={{ marginTop: "40px", borderTop: `1px solid ${C.ruleLight}`, paddingTop: "8px" }}>
               {brief.sections.map(({ title, items }) => (
-                <div key={title} style={{ borderTop: `1px solid ${C.ruleLight}`, paddingTop: "28px", marginBottom: "32px" }}>
-                  <h3 style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.ink, marginBottom: "20px" }}>
+                <div key={title} style={{ paddingTop: "28px", marginBottom: "32px" }}>
+                  <h3 style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: C.inkMid, marginBottom: "18px", borderBottom: `1px solid ${C.ruleLight}`, paddingBottom: "10px" }}>
                     {title}
                   </h3>
                   <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                     {items.map((item, i) => (
-                      <li key={i} style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.inkLight, lineHeight: 1.75, paddingLeft: "16px", borderLeft: `2px solid ${C.rule}`, marginBottom: "14px", maxWidth: "680px" }}>
+                      <li key={i} style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", color: C.inkMid, lineHeight: 1.8, paddingLeft: "18px", borderLeft: `2px solid ${C.ruleLight}`, marginBottom: "16px", maxWidth: "680px" }}>
                         {item}
                       </li>
                     ))}
