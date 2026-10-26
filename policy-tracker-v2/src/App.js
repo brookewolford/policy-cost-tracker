@@ -854,7 +854,8 @@ function BriefsPage() {
         Policy Briefs
       </h1>
       <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "17px", color: C.inkLight, lineHeight: 1.7, marginBottom: "56px", maxWidth: "640px" }}>
-        Original research and analysis from Uncommon Gathering Group on fiscal policy, public investment, and government accountability.
+        Independent policy analysis. No spin.<br />
+        Fiscal policy, public investment, and government accountability.
       </p>
 
       {/* Brief card */}
