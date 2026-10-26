@@ -114,16 +114,16 @@ const STATIC_CATEGORIES = [
   {
     id: "debt_interest",
     label: "Interest Cost on OBBBA-Added Debt",
-    subtitle: "~$820B–$1.05T additional interest over 10 years at current Treasury rates",
-    baseAmount: 935_000_000_000,
-    ratePerSecond: 2_963,
+    subtitle: "~$1.1T–$1.4T additional interest over 10 years — 10-yr Treasury now 100+ bps above CBO projections",
+    baseAmount: 1_250_000_000_000,
+    ratePerSecond: 3_963,
     color: "#e74c3c",
     lastUpdated: "October 2026",
     lastVerified: "October 2026",
-    source: "CBO Long-Term Budget Outlook 2026; OMB interest rate projections",
+    source: "CBO Long-Term Budget Outlook 2026; CRFB Oct 8 2026; OMB interest rate projections",
     treasuryLive: false,
     resolved: false,
-    note: "The $4.1T deficit increase added by OBBBA generates compounding interest costs not included in CBO's headline deficit figure. At current 10-year Treasury rates (~4.2%), CBO projects $820B–$1.05T in additional interest payments over 10 years. Midpoint: ~$935B. This is the cost of borrowing to finance the tax cuts — ultimately paid through future taxes or reduced public services. ratePerSecond computed as $935B / 10yr / 365.25 / 86400.",
+    note: "The $4.1T deficit increase added by OBBBA generates compounding interest costs not included in CBO's headline deficit figure. CBO's February 2026 baseline assumed ~4.2% 10-year Treasury rates. As of October 2026, the 10-year yield is running 100+ basis points above that projection (CRFB, Oct 8 2026). At ~5.2%, additional interest on OBBBA-added debt rises to an estimated $1.1T–$1.4T over 10 years. Midpoint: ~$1.25T. CRFB projects deficits could reach 8.8% of GDP by 2036 under current rate conditions. ratePerSecond computed as $1.25T / 10yr / 365.25 / 86400.",
   },
 ];
 
@@ -251,10 +251,19 @@ function exportImage(total, allCats, allAmounts) {
   ctx.textAlign = "right";
   ctx.fillText("Data: US Treasury API · CBO · Tax Foundation · October 2026", W - 36, H - 14);
   ctx.textAlign = "left";
-  const link = document.createElement("a");
-  link.download = `policy-cost-${new Date().toISOString().slice(0,10)}.png`;
-  link.href = canvas.toDataURL("image/png");
-  link.click();
+  const dataUrl = canvas.toDataURL("image/png");
+  const win = window.open("", "_blank");
+  if (win) {
+    win.document.write(`<!doctype html><html><head><title>Policy Cost Tracker</title><style>body{margin:0;background:#1a1a1a;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:12px}img{max-width:100%;border-radius:4px}a{color:#fff;font-family:monospace;font-size:12px;padding:8px 16px;background:#333;border-radius:4px;text-decoration:none}</style></head><body><img src="${dataUrl}"><a href="${dataUrl}" download="policy-cost-${new Date().toISOString().slice(0,10)}.png">↓ Save image</a></body></html>`);
+    win.document.close();
+  } else {
+    // fallback: open data URL directly
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.click();
+  }
 }
 
 function ShareButton({ total, allCats, allAmounts }) {
